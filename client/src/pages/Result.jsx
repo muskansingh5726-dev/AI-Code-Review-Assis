@@ -4,23 +4,42 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 function Result() {
 
-    const location = useLocation();
     const navigate = useNavigate();
+    const location = useLocation();
 
-    const {
-        language,
-        code,
-        fileName,
-        review
-    } = location.state || {};
+    const { language, review } = location.state || {};
 
-    const copyReview = () => {
+    const copyOutput = () => {
 
-        navigator.clipboard.writeText(review);
+        const outputMatch = review.match(/Output:\s*([\s\S]*)/i);
 
-        toast.success("Review copied successfully!");
+        const output = outputMatch
+            ? outputMatch[1].trim()
+            : "";
+
+        navigator.clipboard.writeText(output);
+
+        toast.success("Output Copied!");
 
     };
+
+    const getSection = (title) => {
+
+        const regex = new RegExp(
+            `${title}:([\\s\\S]*?)(?=Language:|Status:|Errors:|AI Suggestions:|Output:|$)`,
+            "i"
+        );
+
+        const match = review.match(regex);
+
+        return match ? match[1].trim() : "";
+
+    };
+
+    const status = getSection("Status");
+    const errors = getSection("Errors");
+    const suggestions = getSection("AI Suggestions");
+    const output = getSection("Output");
 
     return (
 
@@ -28,20 +47,20 @@ function Result() {
 
             <div className="result-header">
 
-                <h1>🤖 AI Code Review</h1>
+                <h1>🤖 AI Review</h1>
 
                 <button
-                    onClick={() => navigate("/review")}
                     className="back-btn"
+                    onClick={() => navigate("/review")}
                 >
-                    + New Review
+                    New Review
                 </button>
 
             </div>
 
-            <div className="summary-grid">
+            <div className="result-card">
 
-                <div className="summary-card">
+                <div className="info-row">
 
                     <h3>Language</h3>
 
@@ -49,49 +68,58 @@ function Result() {
 
                 </div>
 
-                <div className="summary-card">
-
-                    <h3>Source</h3>
-
-                    <p>{fileName}</p>
-
-                </div>
-
-                <div className="summary-card">
+                <div className="info-row">
 
                     <h3>Status</h3>
 
-                    <p className="success">Completed ✅</p>
+                    <p
+                        className={
+                            status.toLowerCase().includes("failed")
+                                ? "failed"
+                                : "success"
+                        }
+                    >
+                        {status}
+                    </p>
 
                 </div>
 
-            </div>
+                <hr />
 
-            <div className="result-container">
+                <h2>❌ Errors</h2>
 
-                <div className="code-box">
+                <pre className="error-box">
 
-                    <h2>Submitted Code</h2>
+                    {errors || "No Errors Found"}
 
-                    <pre>{code}</pre>
+                </pre>
 
-                </div>
+                <hr />
 
-                <div className="review-box">
+                <h2>💡 AI Suggestions</h2>
 
-                    <div className="review-top">
+                <pre className="suggestion-box">
 
-                        <h2>AI Review</h2>
+                    {suggestions}
 
-                        <button onClick={copyReview}>
-                            Copy
-                        </button>
+                </pre>
 
-                    </div>
+                <hr />
 
-                    <pre>{review}</pre>
+                <h2>🖥 Output</h2>
 
-                </div>
+                <pre className="output-box">
+
+                    {output}
+
+                </pre>
+
+                <button
+                    className="copy-btn"
+                    onClick={copyOutput}
+                >
+                    📋 Copy Output
+                </button>
 
             </div>
 

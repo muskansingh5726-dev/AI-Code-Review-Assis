@@ -49,25 +49,35 @@ export const reviewCode = async (req, res) => {
         }
 
         const prompt = `
-You are a senior software engineer.
+You are an expert software engineer.
 
-Review the following ${language} code.
+Analyze the following ${language} code.
 
-Give your response in this exact format:
+Return ONLY in the exact format below.
 
-Overall Score: XX/100
+Language:
+${language}
 
-Bugs:
-- ...
+Status:
+Completed OR Failed
 
-Performance:
-- ...
+Errors:
+- Mention syntax errors.
+- Mention logical errors.
+- Mention bad coding practices.
+- If none, write "No Errors Found"
 
-Security:
-- ...
+AI Suggestions:
+- Give 3-5 concise suggestions.
 
-Best Practices:
-- ...
+Output:
+- If code is correct, predict the output.
+- If code has errors write:
+Compilation Failed
+
+Do NOT write introductions.
+Do NOT explain everything.
+Do NOT write paragraphs.
 
 Code:
 
@@ -97,8 +107,7 @@ ${code}
 
         });
 
-        const aiReview =
-            completion.choices[0].message.content;
+        const aiReview = completion.choices[0].message.content.trim();
 
         // Save review
         await pool.query(
@@ -119,14 +128,12 @@ ${code}
 
         );
 
-        res.json({
-
-            success: true,
-            review: aiReview,
-            code,
-            language
-
-        });
+       res.json({
+    success: true,
+    language,
+    review: aiReview,
+    code
+});
 
     } catch (error) {
 

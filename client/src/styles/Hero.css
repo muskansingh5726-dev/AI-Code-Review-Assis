@@ -233,3 +233,37 @@ margin-top:15px;
 }
 
 }
+
+.hero-process{
+
+    background:white;
+    padding:35px;
+    border-radius:18px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+}
+
+.hero-process h2{
+
+    margin-bottom:25px;
+    color:#2563eb;
+
+}
+
+.step{
+
+    padding:15px;
+    background:#f3f4f6;
+    border-radius:10px;
+    margin-bottom:15px;
+    font-weight:600;
+    transition:.3s;
+
+}
+
+.step:hover{
+
+    transform:translateX(8px);
+    background:#dbeafe;
+
+}

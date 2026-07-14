@@ -38,12 +38,11 @@ function Review() {
             );
 
             navigate("/result", {
-                state: {
-                    language,
-                    code,
-                    fileName: "Pasted Code",
-                    review: response.data.review,
-                },
+                state:{
+    language: response.data.language,
+    review: response.data.review,
+    code: response.data.code
+},
             });
 
         } catch (error) {

@@ -1,7 +1,7 @@
 .result-page{
-    padding:40px;
-    background:#f4f7fb;
     min-height:100vh;
+    background:#f4f7fb;
+    padding:40px;
 }
 
 .result-header{
@@ -19,87 +19,88 @@
     background:#2563eb;
     color:white;
     border:none;
-    padding:12px 20px;
+    padding:12px 22px;
     border-radius:8px;
     cursor:pointer;
+    font-size:15px;
 }
 
-.summary-card{
-    display:flex;
-    gap:20px;
-    margin-bottom:30px;
-}
-
-.summary-item{
-    flex:1;
+.result-card{
     background:white;
-    padding:20px;
-    border-radius:12px;
-    box-shadow:0 4px 10px rgba(0,0,0,.08);
+    border-radius:16px;
+    padding:35px;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
 }
 
-.summary-item h3{
-    color:#6b7280;
-    margin-bottom:10px;
+.info-row{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:15px;
 }
 
-.summary-item p{
-    font-size:18px;
-    font-weight:600;
+.info-row h3{
+    color:#374151;
 }
 
 .success{
-    color:green;
+    color:#16a34a;
+    font-weight:700;
 }
 
-.content-container{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:25px;
+.failed{
+    color:#dc2626;
+    font-weight:700;
 }
 
-.code-card,
-.review-card{
-    background:white;
-    border-radius:12px;
-    padding:20px;
-    box-shadow:0 4px 10px rgba(0,0,0,.08);
+hr{
+    margin:25px 0;
 }
 
-.code-card pre,
-.review-text{
+.error-box,
+.output-box,
+.suggestion-box{
+
+    padding:18px;
+    border-radius:10px;
+    white-space:pre-wrap;
+    overflow:auto;
+}
+
+.error-box{
+
+    background:#1f2937;
+    color:#ff5c5c;
+
+}
+
+.suggestion-box{
+
+    background:#eff6ff;
+    color:#1e3a8a;
+
+}
+
+.output-box{
+
     background:#111827;
     color:#22c55e;
-    padding:15px;
-    border-radius:10px;
-    overflow:auto;
-    white-space:pre-wrap;
+
 }
 
-.review-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:20px;
-}
+.copy-btn{
 
-.review-header button{
-    background:#16a34a;
+    margin-top:20px;
+    background:#2563eb;
     color:white;
     border:none;
-    padding:10px 15px;
+    padding:12px 22px;
     border-radius:8px;
     cursor:pointer;
+
 }
 
-@media(max-width:900px){
+.copy-btn:hover{
 
-.content-container{
-grid-template-columns:1fr;
-}
-
-.summary-card{
-flex-direction:column;
-}
+    background:#1d4ed8;
 
 }

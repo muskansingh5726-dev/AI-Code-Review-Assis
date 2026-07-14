@@ -103,38 +103,29 @@ function Hero() {
 
             <div className="hero-right">
 
-                <div className="dashboard-card">
+    <div className="hero-process">
 
-                    <h3>AI Review Summary</h3>
+        <h2>⚡ How It Works</h2>
 
-                    <div className="hero-score">
-                        <span>Overall Score</span>
-                        <strong>92/100</strong>
-                    </div>
+        <div className="step">
+            1️⃣ Paste Code / Upload File
+        </div>
 
-                    <div className="hero-item">
-                        🐞 Bugs Found
-                        <span>5</span>
-                    </div>
+        <div className="step">
+            2️⃣ AI Reviews Your Code
+        </div>
 
-                    <div className="hero-item">
-                        ⚡ Performance
-                        <span>Excellent</span>
-                    </div>
+        <div className="step">
+            3️⃣ Detect Errors
+        </div>
 
-                    <div className="hero-item">
-                        🔒 Security
-                        <span>2 Warnings</span>
-                    </div>
+        <div className="step">
+            4️⃣ Improve Your Code
+        </div>
 
-                    <div className="hero-item">
-                        🧠 AI Suggestions
-                        <span>12</span>
-                    </div>
+    </div>
 
-                </div>
-
-            </div>
+</div>
 
         </section>
 

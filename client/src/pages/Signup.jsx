@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import API from "../api/api";
-
+import { useNavigate } from "react-router-dom";
 function Signup() {
+  const navigate = useNavigate();
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -13,6 +14,7 @@ function Signup() {
     const [errors, setErrors] = useState({});
     const handleSignup = async (e) => {
   e.preventDefault();
+  console.log("BUTTON CLICKED");
 
   let validationErrors = {};
 
@@ -41,6 +43,7 @@ function Signup() {
   if (Object.keys(validationErrors).length === 0) {
 
   try {
+    console.log("ABOUT TO SEND REQUEST");
 
     const response = await API.post("/auth/signup", {
       name,
@@ -50,7 +53,9 @@ function Signup() {
 
     toast.success(response.data.message);
 
-    console.log(response.data);
+setTimeout(() => {
+    navigate("/login");
+}, 1500);
 
   } catch (error) {
 
