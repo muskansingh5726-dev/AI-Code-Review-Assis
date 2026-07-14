@@ -1,0 +1,163 @@
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,Helvetica,sans-serif;
+}
+
+.auth-container{
+display:flex;
+min-height:100vh;
+}
+
+.auth-left{
+flex:1;
+background:linear-gradient(135deg,#312E81,#0F172A);
+color:white;
+display:flex;
+flex-direction:column;
+justify-content:center;
+padding:60px;
+}
+
+.auth-left h1{
+font-size:48px;
+margin-bottom:20px;
+}
+
+.auth-left p{
+font-size:18px;
+line-height:1.8;
+margin-bottom:40px;
+}
+
+.auth-left img{
+width:100%;
+max-width:450px;
+}
+
+.auth-right{
+flex:1;
+display:flex;
+justify-content:center;
+align-items:center;
+background:#F8FAFC;
+padding:40px;
+}
+
+.auth-card{
+background:white;
+width:420px;
+padding:40px;
+border-radius:18px;
+box-shadow:0 15px 40px rgba(0,0,0,.1);
+}
+
+.auth-card h2{
+margin-bottom:30px;
+text-align:center;
+}
+
+.auth-card label{
+display:block;
+margin-top:20px;
+margin-bottom:8px;
+font-weight:600;
+}
+
+.auth-card input{
+width:100%;
+padding:14px;
+border:1px solid #ddd;
+border-radius:8px;
+font-size:16px;
+}
+
+.auth-card button{
+margin-top:30px;
+width:100%;
+padding:15px;
+background:#7C3AED;
+color:white;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-size:16px;
+}
+
+.auth-link{
+margin-top:25px;
+text-align:center;
+}
+
+.auth-link a{
+margin-left:6px;
+color:#7C3AED;
+text-decoration:none;
+font-weight:bold;
+}
+
+@media(max-width:900px){
+
+.auth-container{
+flex-direction:column;
+}
+
+.auth-left{
+text-align:center;
+align-items:center;
+padding:40px;
+}
+
+.auth-left h1{
+font-size:36px;
+}
+
+.auth-card{
+width:100%;
+max-width:420px;
+}
+
+}
+.forgot-password{
+text-align:right;
+margin-top:10px;
+}
+
+.forgot-password a{
+text-decoration:none;
+color:#7C3AED;
+font-size:14px;
+font-weight:600;
+}
+
+.forgot-password a:hover{
+text-decoration:underline;
+}
+
+.password-box{
+    position: relative;
+    width: 100%;
+}
+
+.password-box input{
+    width:100%;
+    padding-right:50px;
+    box-sizing:border-box;
+}
+
+.eye-icon{
+    position:absolute;
+    top:50%;
+    right:15px;
+    transform:translateY(-50%);
+
+    color:#7C3AED;
+    font-size:20px;
+
+    cursor:pointer;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}

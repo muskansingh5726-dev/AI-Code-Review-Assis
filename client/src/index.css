@@ -1,0 +1,84 @@
+/* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+/* Theme Variables */
+:root{
+
+--primary:#7C3AED;
+--primary-dark:#5B21B6;
+
+--secondary:#111827;
+
+--background:#F8FAFC;
+
+--white:#FFFFFF;
+
+--text:#111827;
+
+--text-light:#6B7280;
+
+--border:#E5E7EB;
+
+--shadow:0 12px 30px rgba(0,0,0,.08);
+
+--radius:18px;
+
+}
+
+/* Reset */
+
+*{
+
+margin:0;
+
+padding:0;
+
+box-sizing:border-box;
+
+font-family:'Poppins',sans-serif;
+
+}
+
+/* Body */
+
+body{
+
+background:var(--background);
+
+color:var(--text);
+
+overflow-x:hidden;
+
+}
+
+/* Links */
+
+a{
+
+text-decoration:none;
+
+color:inherit;
+
+}
+
+/* Buttons */
+
+button{
+
+cursor:pointer;
+
+font-family:inherit;
+
+transition:.3s;
+
+}
+
+/* Images */
+
+img{
+
+max-width:100%;
+
+display:block;
+
+}

@@ -1,0 +1,43 @@
+.how{
+padding:90px 8%;
+text-align:center;
+background:white;
+}
+
+.how h2{
+font-size:42px;
+margin-bottom:10px;
+}
+
+.how>p{
+color:gray;
+margin-bottom:50px;
+}
+
+.how-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:35px;
+}
+
+.how-card{
+background:#F8FAFC;
+padding:40px;
+border-radius:20px;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+transition:.3s;
+}
+
+.how-card:hover{
+transform:translateY(-10px);
+}
+
+.how-card svg{
+font-size:50px;
+color:#7C3AED;
+margin-bottom:20px;
+}
+
+.how-card h3{
+margin-bottom:15px;
+}

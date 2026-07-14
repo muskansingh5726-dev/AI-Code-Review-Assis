@@ -1,0 +1,83 @@
+.dashboard-preview{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:90px 8%;
+background:#eef2ff;
+gap:60px;
+flex-wrap:wrap;
+}
+
+.preview-left{
+flex:1;
+min-width:320px;
+}
+
+.preview-left h2{
+font-size:42px;
+margin-bottom:20px;
+color:#111827;
+}
+
+.preview-left p{
+font-size:18px;
+line-height:1.8;
+color:#4b5563;
+margin-bottom:30px;
+}
+
+.preview-left button{
+padding:15px 30px;
+border:none;
+background:#7C3AED;
+color:white;
+font-size:16px;
+border-radius:10px;
+cursor:pointer;
+}
+
+.preview-right{
+flex:1;
+display:flex;
+justify-content:center;
+min-width:320px;
+}
+
+.review-card{
+background:white;
+width:360px;
+padding:30px;
+border-radius:20px;
+box-shadow:0 15px 40px rgba(0,0,0,.15);
+}
+
+.review-card h3{
+margin-bottom:20px;
+}
+
+.score{
+display:flex;
+justify-content:space-between;
+padding-bottom:15px;
+margin-bottom:20px;
+border-bottom:1px solid #ddd;
+}
+
+.review-item{
+display:flex;
+justify-content:space-between;
+padding:14px 0;
+border-bottom:1px solid #eee;
+}
+
+@media(max-width:900px){
+
+.dashboard-preview{
+text-align:center;
+}
+
+.preview-right{
+margin-top:30px;
+}
+
+}

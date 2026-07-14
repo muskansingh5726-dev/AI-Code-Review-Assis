@@ -1,0 +1,137 @@
+.review-page{
+
+padding:40px;
+
+background:#F8FAFC;
+
+min-height:100vh;
+
+}
+
+.review-page h1{
+
+font-size:38px;
+
+margin-bottom:10px;
+
+}
+
+.review-page p{
+
+color:#666;
+
+margin-bottom:30px;
+
+}
+
+.review-container{
+
+display:grid;
+
+grid-template-columns:2fr 1fr;
+
+gap:30px;
+
+}
+
+.editor-section{
+
+background:white;
+
+padding:25px;
+
+border-radius:18px;
+
+box-shadow:0 10px 30px rgba(0,0,0,.08);
+
+}
+
+.editor-section textarea{
+
+width:100%;
+
+padding:20px;
+
+font-size:15px;
+
+border:1px solid #ddd;
+
+border-radius:12px;
+
+resize:none;
+
+font-family:monospace;
+
+}
+
+.options-section{
+
+background:white;
+
+padding:25px;
+
+border-radius:18px;
+
+box-shadow:0 10px 30px rgba(0,0,0,.08);
+
+display:flex;
+
+flex-direction:column;
+
+gap:18px;
+
+}
+
+.options-section select,
+.options-section input{
+
+padding:12px;
+
+border:1px solid #ddd;
+
+border-radius:8px;
+
+}
+
+.options-section button{
+
+padding:15px;
+
+background:#7C3AED;
+
+color:white;
+
+border:none;
+
+border-radius:10px;
+
+font-size:16px;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+.options-section button:hover{
+
+background:#6D28D9;
+
+}
+
+@media(max-width:900px){
+
+.review-container{
+
+grid-template-columns:1fr;
+
+}
+
+}
+button:disabled{
+
+opacity:.8;
+
+cursor:not-allowed;
+
+}

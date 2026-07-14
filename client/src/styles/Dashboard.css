@@ -1,0 +1,249 @@
+.dashboard{
+
+margin-left:240px;
+
+padding:40px;
+
+background:#F8FAFC;
+
+min-height:100vh;
+
+}
+
+.dashboard-header{
+
+margin-bottom:40px;
+
+}
+
+.dashboard-header h1{
+
+font-size:40px;
+
+}
+
+.dashboard-header span{
+
+color:#7C3AED;
+
+}
+
+.dashboard-header p{
+
+margin-top:10px;
+
+color:#666;
+
+font-size:18px;
+
+}
+
+.stats{
+
+display:grid;
+
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+
+gap:25px;
+
+margin-bottom:40px;
+
+}
+
+.card{
+
+background:white;
+
+padding:35px;
+
+border-radius:20px;
+
+box-shadow:0 10px 30px rgba(0,0,0,.08);
+
+transition:.3s;
+
+text-align:center;
+
+}
+
+.card:hover{
+
+transform:translateY(-8px);
+
+}
+
+.card h2{
+
+font-size:40px;
+
+color:#7C3AED;
+
+margin-bottom:10px;
+
+}
+
+.recent{
+
+background:white;
+
+padding:30px;
+
+border-radius:20px;
+
+box-shadow:0 10px 30px rgba(0,0,0,.08);
+
+margin-bottom:35px;
+
+}
+
+.recent h2{
+
+margin-bottom:20px;
+
+}
+
+.recent ul{
+
+list-style:none;
+
+}
+
+.recent li{
+
+padding:14px 0;
+
+border-bottom:1px solid #eee;
+
+}
+
+.new-review{
+
+padding:18px 35px;
+
+border:none;
+
+background:#7C3AED;
+
+color:white;
+
+font-size:17px;
+
+border-radius:12px;
+
+cursor:pointer;
+
+}
+
+.new-review:hover{
+
+background:#6D28D9;
+
+}
+.dashboard-page{
+
+    padding:40px;
+
+}
+
+.dashboard-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+
+    gap:25px;
+
+    margin-top:35px;
+
+}
+
+.dashboard-card{
+
+    background:white;
+
+    padding:25px;
+
+    border-radius:15px;
+
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+
+    transition:.3s;
+
+}
+
+.dashboard-card:hover{
+
+    transform:translateY(-5px);
+
+}
+
+.dashboard-card h3{
+
+    color:#6b7280;
+
+    margin-bottom:10px;
+
+}
+
+.dashboard-card h2{
+
+    color:#2563eb;
+
+    font-size:32px;
+
+}
+.recent-section{
+
+margin-top:40px;
+
+background:white;
+
+padding:30px;
+
+border-radius:15px;
+
+box-shadow:0 5px 20px rgba(0,0,0,.08);
+
+}
+
+.recent-section h2{
+
+margin-bottom:20px;
+
+color:#2563eb;
+
+}
+
+.recent-card{
+
+display:flex;
+
+justify-content:space-between;
+
+padding:15px 0;
+
+border-bottom:1px solid #eee;
+
+flex-wrap:wrap;
+
+gap:10px;
+
+}
+
+.recent-card:last-child{
+
+border-bottom:none;
+
+}
+
+@media(max-width:768px){
+
+.recent-card{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+}
+
+}
