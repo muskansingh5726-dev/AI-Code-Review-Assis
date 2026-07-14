@@ -3,7 +3,9 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 export const signup = async (req, res) => {
-    console.log("🔥 Signup route reached!");
+
+    console.log("🔥 SIGNUP HIT");
+    console.log("Request Body:", req.body);
 
     try {
 
