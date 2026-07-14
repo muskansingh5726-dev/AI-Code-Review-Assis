@@ -1,6 +1,10 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+dotenv.config();
+console.log("DATABASE:", process.env.DATABASE_URL ? "FOUND ✅" : "MISSING ❌");
+console.log("JWT:", process.env.JWT_SECRET ? "FOUND ✅" : "MISSING ❌");
+console.log("GROQ:", process.env.GROQ_API_KEY ? "FOUND ✅" : "MISSING ❌");
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -13,12 +17,6 @@ import profileRoutes from "./routes/profileRoutes.js";
 import pool from "./config/db.js";
 
 // Resolve .env path
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-dotenv.config({
-    path: path.join(__dirname, ".env"),
-});
 
 console.log("Groq Loaded:", process.env.GROQ_API_KEY ? "YES ✅" : "NO ❌");
 const app = express();

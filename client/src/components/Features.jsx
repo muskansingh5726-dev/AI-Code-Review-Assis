@@ -22,7 +22,7 @@ function Features(){
 
 return(
 
-<section className="features">
+<section   id="features" className="features">
 
 <h2>Powerful Features</h2>
 
