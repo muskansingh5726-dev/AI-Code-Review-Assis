@@ -46,43 +46,28 @@ export const reviewCode = async (req, res) => {
         }
 
         const prompt = `
-You are an expert ${language} software engineer.
+Review this ${language} code.
 
-Analyze the following code.
-
-Return ONLY valid JSON.
+Return ONLY a JSON object.
 
 {
   "status":"Completed",
-  "errors":[
-      {
-          "line":1,
-          "message":""
-      }
-  ],
+  "errors":[],
   "suggestions":[
-      "",
-      "",
-      "",
-      ""
+    "Suggestion 1",
+    "Suggestion 2",
+    "Suggestion 3"
   ],
   "output":""
 }
 
-Rules:
+IMPORTANT:
 
-1. Detect syntax errors.
-2. Detect logical errors.
-3. Mention exact line numbers whenever possible.
-4. If no errors return an empty array [].
-5. Predict the actual output of the program.
-6. If the code has syntax errors return:
-   "Compilation Failed"
-7. Suggestions should be short.
-8. Never generate improved code.
-9. Never explain.
-10. Never use markdown.
-11. Return ONLY JSON.
+- suggestions MUST contain at least 3 items.
+- Never return an empty suggestions array.
+- If the code is already good, still give best-practice suggestions.
+- Output should be the exact console output.
+- Return ONLY JSON.
 
 Code:
 
@@ -115,6 +100,13 @@ ${code}
 
 try {
     ai = JSON.parse(completion.choices[0].message.content);
+    if (!Array.isArray(ai.suggestions) || ai.suggestions.length === 0) {
+    ai.suggestions = [
+        "Use meaningful variable names.",
+        "Add comments for better readability.",
+        "Handle exceptions where necessary."
+    ];
+}
 } catch {
 
     ai = {
