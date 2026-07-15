@@ -99,8 +99,18 @@ ${code}
         let ai;
 
 try {
-    ai = JSON.parse(completion.choices[0].message.content);
-   // Force suggestions
+   let response = completion.choices[0].message.content;
+
+// Remove ```json
+response = response.replace(/```json/g, "");
+
+// Remove ```
+response = response.replace(/```/g, "");
+
+// Remove spaces
+response = response.trim();
+
+ai = JSON.parse(response);
 
 if (!Array.isArray(ai.suggestions)) {
 
