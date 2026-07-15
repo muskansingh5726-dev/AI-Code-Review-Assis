@@ -67,16 +67,18 @@ function Result() {
                 <h2>🚨 Static Analysis</h2>
 
                 <pre className="error-box">
-
-                    {Array.isArray(errors)
-    ? errors.length === 0
-        ? "No Errors Found"
-        : errors.map(
-              (e) => `Line ${e.line}: ${e.message}`
-          ).join("\n")
-    : errors || "No Errors Found"}
-
-                </pre>
+{
+Array.isArray(errors)
+? (
+errors.length === 0
+? "No Errors Found"
+: errors.map(err =>
+`${err.line ? `Line ${err.line}: ` : ""}${err.message || err}`
+).join("\n")
+)
+: errors || "No Errors Found"
+}
+</pre>
 
                 <hr />
 
@@ -84,11 +86,11 @@ function Result() {
 
                <pre className="suggestion-box">
 {
-    Array.isArray(suggestions)
-        ? suggestions.map((item, index) => (
-            <div key={index}>• {item}</div>
-        ))
-        : suggestions || "No Suggestions"
+Array.isArray(suggestions)
+? suggestions.map((item, index) => (
+    `${index + 1}. ${item}`
+)).join("\n\n")
+: suggestions || "No Suggestions"
 }
 </pre>
 
