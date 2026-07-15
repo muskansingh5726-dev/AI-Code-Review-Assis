@@ -82,11 +82,15 @@ function Result() {
 
                 <h2>🤖 AI Suggestions</h2>
 
-                <pre className="suggestion-box">
-
-                    {suggestions || "No Suggestions"}
-
-                </pre>
+               <pre className="suggestion-box">
+{
+    Array.isArray(suggestions)
+        ? suggestions.map((item, index) => (
+            <div key={index}>• {item}</div>
+        ))
+        : suggestions || "No Suggestions"
+}
+</pre>
 
                 <hr />
 
