@@ -113,23 +113,20 @@ ${code}
 
         let ai;
 
-        try {
+try {
+    ai = JSON.parse(completion.choices[0].message.content);
+} catch {
 
-            ai = JSON.parse(
-                completion.choices[0].message.content
-            );
+    ai = {
+        status: "Completed",
+        errors: [],
+        suggestions: [
+            completion.choices[0].message.content
+        ],
+        output: ""
+    };
 
-        } catch {
-
-            return res.status(500).json({
-
-                success: false,
-                message: "AI returned an invalid response."
-
-            });
-
-        }
-
+}
         await pool.query(
 
             `
