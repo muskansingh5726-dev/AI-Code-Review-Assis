@@ -1,20 +1,14 @@
 import fs from "fs";
 import pool from "../config/db.js";
 import Groq from "groq-sdk";
-import { analyzeJava } from "../analyzers/javaAnalyzer.js";
-import { analyzePython } from "../analyzers/pythonAnalyzer.js";
-import { analyzeJavaScript } from "../analyzers/jsAnalyzer.js";
-
-// const groq = new Groq({
-//     apiKey: process.env.GROQ_API_KEY,
-// });
 
 export const reviewCode = async (req, res) => {
 
     try {
+
         const groq = new Groq({
-    apiKey: process.env.GROQ_API_KEY,
-});
+            apiKey: process.env.GROQ_API_KEY,
+        });
 
         let { code, language } = req.body;
 
@@ -42,63 +36,59 @@ export const reviewCode = async (req, res) => {
             }
         }
 
-        let analysis;
+        if (!code) {
 
-switch (language) {
+            return res.status(400).json({
+                success: false,
+                message: "Please paste code or upload a file."
+            });
 
-    case "Java":
-        analysis = await analyzeJava(code);
-        break;
+        }
 
-    case "Python":
-        analysis = await analyzePython(code);
-        break;
+        const prompt = `
+You are an expert ${language} software engineer.
 
-    case "JavaScript":
-        analysis = await analyzeJavaScript(code);
-        break;
+Analyze the following code.
 
-    default:
-        analysis = {
-            status: "Completed",
-            errors: [],
-            output: ""
-        };
+Return ONLY valid JSON.
 
+{
+  "status":"Completed",
+  "errors":[
+      {
+          "line":1,
+          "message":""
+      }
+  ],
+  "suggestions":[
+      "",
+      "",
+      "",
+      ""
+  ],
+  "output":""
 }
 
-      const prompt = `
-You are a senior software engineer.
+Rules:
 
-The compiler has already analyzed this code.
-
-Compiler Status:
-${analysis.status}
-
-Compiler Errors:
-${analysis.errors}
-
-Compiler Output:
-${analysis.output}
-
-Now review ONLY the code quality.
-
-Return ONLY this format.
-
-AI Suggestions:
-- Suggest improvements.
-- Better naming.
-- Best practices.
-- Performance improvements.
-- Security improvements if needed.
-
-Do not repeat compiler errors.
-Do not predict output.
+1. Detect syntax errors.
+2. Detect logical errors.
+3. Mention exact line numbers whenever possible.
+4. If no errors return an empty array [].
+5. Predict the actual output of the program.
+6. If the code has syntax errors return:
+   "Compilation Failed"
+7. Suggestions should be short.
+8. Never generate improved code.
+9. Never explain.
+10. Never use markdown.
+11. Return ONLY JSON.
 
 Code:
 
 ${code}
 `;
+
         const completion = await groq.chat.completions.create({
 
             model: "llama-3.3-70b-versatile",
@@ -107,8 +97,7 @@ ${code}
 
                 {
                     role: "system",
-                    content:
-                        "You are an expert code reviewer."
+                    content: "You are an expert code reviewer."
                 },
 
                 {
@@ -118,50 +107,79 @@ ${code}
 
             ],
 
-            temperature: 0.3,
+            temperature: 0
 
         });
 
-      const suggestions = completion.choices[0].message.content.trim();
-        // Save review
-           await pool.query(
-    `
-    INSERT INTO reviews
-    (user_id, language, code, review, score)
-    VALUES ($1,$2,$3,$4,$5)
-    `,
-    [
-        req.user.id,
-        language,
-        code,
-        suggestions,
-        90
-    ]
-);
-       res.json({
-    success: true,
+        let ai;
 
-    language,
+        try {
 
-    status: analysis.status,
+            ai = JSON.parse(
+                completion.choices[0].message.content
+            );
 
-    errors: analysis.errors,
+        } catch {
 
-    output: analysis.output,
+            return res.status(500).json({
 
-    suggestions,
+                success: false,
+                message: "AI returned an invalid response."
 
-    code
-});
+            });
 
-    } catch (error) {
+        }
 
-        console.log("GROQ ERROR:");
+        await pool.query(
+
+            `
+            INSERT INTO reviews
+            (user_id, language, code, review, score)
+            VALUES ($1,$2,$3,$4,$5)
+            `,
+
+            [
+
+                req.user.id,
+
+                language,
+
+                code,
+
+                JSON.stringify(ai),
+
+                90
+
+            ]
+
+        );
+
+        return res.json({
+
+            success: true,
+
+            language,
+
+            status: ai.status,
+
+            errors: ai.errors,
+
+            suggestions: ai.suggestions,
+
+            output: ai.output
+
+        });
+
+    }
+
+    catch (error) {
+
         console.log(error);
 
-        res.status(500).json({
+        return res.status(500).json({
 
             success: false,
+
             message: "AI Review Failed"
 
         });
