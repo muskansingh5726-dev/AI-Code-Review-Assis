@@ -26,22 +26,33 @@ export async function analyzeJava(code) {
         );
 
         return {
-
             status: "Completed",
             errors: [],
             output: stdout.trim()
-
         };
 
-    }
+    } catch (error) {
 
-    catch (error) {
+        // javac not available on deployment
+        if (error.stderr?.includes("javac: not found")) {
+
+            return {
+                status: "Completed",
+                errors: [
+                    "Java compiler is unavailable on the deployed server."
+                ],
+                output: "Output unavailable on deployment."
+            };
+
+        }
 
         return {
 
             status: "Failed",
 
-            errors: error.stderr,
+            errors: error.stderr
+                ? error.stderr.trim().split("\n")
+                : ["Compilation Failed"],
 
             output: "Compilation Failed"
 

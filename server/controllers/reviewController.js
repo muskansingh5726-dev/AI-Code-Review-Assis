@@ -124,24 +124,20 @@ ${code}
 
       const suggestions = completion.choices[0].message.content.trim();
         // Save review
-        await pool.query(
-
-            `
-            INSERT INTO reviews
-            (user_id, language, code, review, score)
-            VALUES ($1,$2,$3,$4,$5)
-            `,
-
-            [
-                req.user.id,
-                language,
-                code,
-                suggestions,
-                90
-            ]
-
-        );
-
+           await pool.query(
+    `
+    INSERT INTO reviews
+    (user_id, language, code, review, score)
+    VALUES ($1,$2,$3,$4,$5)
+    `,
+    [
+        req.user.id,
+        language,
+        code,
+        suggestions,
+        90
+    ]
+);
        res.json({
     success: true,
 
