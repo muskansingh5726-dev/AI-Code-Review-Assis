@@ -1,6 +1,9 @@
 import fs from "fs";
 import pool from "../config/db.js";
 import Groq from "groq-sdk";
+import { analyzeJava } from "../analyzers/javaAnalyzer.js";
+import { analyzePython } from "../analyzers/pythonAnalyzer.js";
+import { analyzeJavaScript } from "../analyzers/jsAnalyzer.js";
 
 // const groq = new Groq({
 //     apiKey: process.env.GROQ_API_KEY,
@@ -39,51 +42,63 @@ export const reviewCode = async (req, res) => {
             }
         }
 
-        if (!code) {
+        let analysis;
 
-            return res.status(400).json({
-                success: false,
-                message: "Please paste code or upload a file."
-            });
+switch (language) {
 
-        }
+    case "Java":
+        analysis = await analyzeJava(code);
+        break;
 
-        const prompt = `
-You are an expert software engineer.
+    case "Python":
+        analysis = await analyzePython(code);
+        break;
 
-Analyze the following ${language} code.
+    case "JavaScript":
+        analysis = await analyzeJavaScript(code);
+        break;
 
-Return ONLY in the exact format below.
+    default:
+        analysis = {
+            status: "Completed",
+            errors: [],
+            output: ""
+        };
 
-Language:
-${language}
+}
 
-Status:
-Completed OR Failed
+      const prompt = `
+You are a senior software engineer.
 
-Errors:
-- Mention syntax errors.
-- Mention logical errors.
-- Mention bad coding practices.
-- If none, write "No Errors Found"
+The compiler has already analyzed this code.
+
+Compiler Status:
+${analysis.status}
+
+Compiler Errors:
+${analysis.errors}
+
+Compiler Output:
+${analysis.output}
+
+Now review ONLY the code quality.
+
+Return ONLY this format.
 
 AI Suggestions:
-- Give 3-5 concise suggestions.
+- Suggest improvements.
+- Better naming.
+- Best practices.
+- Performance improvements.
+- Security improvements if needed.
 
-Output:
-- If code is correct, predict the output.
-- If code has errors write:
-Compilation Failed
-
-Do NOT write introductions.
-Do NOT explain everything.
-Do NOT write paragraphs.
+Do not repeat compiler errors.
+Do not predict output.
 
 Code:
 
 ${code}
 `;
-
         const completion = await groq.chat.completions.create({
 
             model: "llama-3.3-70b-versatile",
@@ -107,8 +122,7 @@ ${code}
 
         });
 
-        const aiReview = completion.choices[0].message.content.trim();
-
+      const suggestions = completion.choices[0].message.content.trim();
         // Save review
         await pool.query(
 
@@ -122,7 +136,7 @@ ${code}
                 req.user.id,
                 language,
                 code,
-                aiReview,
+                suggestions,
                 90
             ]
 
@@ -130,8 +144,17 @@ ${code}
 
        res.json({
     success: true,
+
     language,
-    review: aiReview,
+
+    status: analysis.status,
+
+    errors: analysis.errors,
+
+    output: analysis.output,
+
+    suggestions,
+
     code
 });
 

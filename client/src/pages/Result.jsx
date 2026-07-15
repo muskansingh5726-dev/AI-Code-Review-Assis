@@ -7,39 +7,21 @@ function Result() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const { language, review } = location.state || {};
+    const {
+        language,
+        status,
+        errors,
+        output,
+        suggestions
+    } = location.state || {};
 
     const copyOutput = () => {
 
-        const outputMatch = review.match(/Output:\s*([\s\S]*)/i);
-
-        const output = outputMatch
-            ? outputMatch[1].trim()
-            : "";
-
-        navigator.clipboard.writeText(output);
+        navigator.clipboard.writeText(output || "");
 
         toast.success("Output Copied!");
 
     };
-
-    const getSection = (title) => {
-
-        const regex = new RegExp(
-            `${title}:([\\s\\S]*?)(?=Language:|Status:|Errors:|AI Suggestions:|Output:|$)`,
-            "i"
-        );
-
-        const match = review.match(regex);
-
-        return match ? match[1].trim() : "";
-
-    };
-
-    const status = getSection("Status");
-    const errors = getSection("Errors");
-    const suggestions = getSection("AI Suggestions");
-    const output = getSection("Output");
 
     return (
 
@@ -47,7 +29,7 @@ function Result() {
 
             <div className="result-header">
 
-                <h1>🤖 AI Review</h1>
+                <h1>🤖 AI Review Result</h1>
 
                 <button
                     className="back-btn"
@@ -72,35 +54,33 @@ function Result() {
 
                     <h3>Status</h3>
 
-                    <p
-                        className={
-                            status.toLowerCase().includes("failed")
-                                ? "failed"
-                                : "success"
-                        }
-                    >
-                        {status}
+                    <p className={status === "Failed" ? "failed" : "success"}>
+                        {status === "Failed"
+                            ? "🔴 Failed"
+                            : "🟢 Completed"}
                     </p>
 
                 </div>
 
                 <hr />
 
-                <h2>❌ Errors</h2>
+                <h2>🚨 Static Analysis</h2>
 
                 <pre className="error-box">
 
-                    {errors || "No Errors Found"}
+                    {Array.isArray(errors)
+                        ? errors.join("\n")
+                        : errors || "No Errors Found"}
 
                 </pre>
 
                 <hr />
 
-                <h2>💡 AI Suggestions</h2>
+                <h2>🤖 AI Suggestions</h2>
 
                 <pre className="suggestion-box">
 
-                    {suggestions}
+                    {suggestions || "No Suggestions"}
 
                 </pre>
 
@@ -110,7 +90,7 @@ function Result() {
 
                 <pre className="output-box">
 
-                    {output}
+                    {output || "No Output"}
 
                 </pre>
 

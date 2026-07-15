@@ -29,7 +29,7 @@ export async function analyzeJava(code) {
 
             status: "Completed",
             errors: [],
-            output: stdout
+            output: stdout.trim()
 
         };
 

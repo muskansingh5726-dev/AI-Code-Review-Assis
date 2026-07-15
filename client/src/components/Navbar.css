@@ -48,14 +48,12 @@ font-size:34px;
 
 }
 
+
 .nav-links{
-
-display:flex;
-
-gap:40px;
-
-list-style:none;
-
+    display:flex;
+    align-items:center;
+    gap:35px;
+    list-style:none;
 }
 
 .nav-links li{
@@ -66,12 +64,25 @@ cursor:pointer;
 
 transition:.3s;
 
+list-style:none;
+
 }
 
 .nav-links li:hover{
 
 color:#A855F7;
 
+}
+
+.nav-links a{
+    text-decoration:none;
+    color:white;
+    font-weight:500;
+    transition:.3s;
+}
+
+.nav-links a:hover{
+    color:#8b5cf6;
 }
 
 .buttons{
@@ -127,12 +138,6 @@ cursor:pointer;
 }
 
 @media(max-width:900px){
-
-.nav-links{
-
-display:none;
-
-}
 
 .buttons{
 

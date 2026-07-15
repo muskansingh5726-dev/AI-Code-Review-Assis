@@ -49,7 +49,7 @@ localStorage.setItem(
     "user",
     JSON.stringify(response.data.user)
 );
-
+window.dispatchEvent(new Event("storage"));
 toast.success(response.data.message);
 
 navigate("/dashboard");

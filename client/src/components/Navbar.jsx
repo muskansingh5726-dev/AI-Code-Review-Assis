@@ -22,15 +22,19 @@ function Navbar() {
 
             <ul className={menuOpen ? "nav-links active" : "nav-links"}>
 
-                <li>Home</li>
+    <li>
+        <a href="#home" onClick={() => setMenuOpen(false)}>Home</a>
+    </li>
 
-                <li>Features</li>
+    <li>
+        <a href="#features" onClick={() => setMenuOpen(false)}>Features</a>
+    </li>
 
-                <li>How It Works</li>
+    <li>
+        <a href="#contact" onClick={() => setMenuOpen(false)}>Contact</a>
+    </li>
 
-                <li>Contact</li>
-
-            </ul>
+</ul>
 
             <div className="buttons">
 

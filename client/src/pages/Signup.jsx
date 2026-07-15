@@ -54,8 +54,8 @@ function Signup() {
     toast.success(response.data.message);
 
 setTimeout(() => {
-    navigate("/login");
-}, 1500);
+   window.location.href = "/login";
+}, 1200);
 
   } catch (error) {
 

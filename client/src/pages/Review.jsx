@@ -24,26 +24,30 @@ function Review() {
 
             const token = localStorage.getItem("token");
 
-            const response = await API.post(
-                "/review",
-                {
-                    language,
-                    code
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
+           const response = await API.post(
+    "/review",
+    {
+        language,
+        code
+    },
+    {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+);
 
-            navigate("/result", {
-                state:{
-    language: response.data.language,
-    review: response.data.review,
-    code: response.data.code
-},
-            });
+console.log("Backend Response:", response.data);
+
+navigate("/result", {
+    state: {
+        language: response.data.language,
+        status: response.data.status,
+        errors: response.data.errors,
+        output: response.data.output,
+        suggestions: response.data.suggestions
+    }
+});
 
         } catch (error) {
 

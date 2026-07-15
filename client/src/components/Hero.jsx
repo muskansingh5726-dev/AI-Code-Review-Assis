@@ -108,20 +108,20 @@ function Hero() {
         <h2>⚡ How It Works</h2>
 
         <div className="step">
-            1️⃣ Paste Code / Upload File
-        </div>
+    <strong>1.</strong>&nbsp; Paste Code / Upload File
+</div>
 
-        <div className="step">
-            2️⃣ AI Reviews Your Code
-        </div>
+<div className="step">
+    <strong>2.</strong>&nbsp; AI Reviews Your Code
+</div>
 
-        <div className="step">
-            3️⃣ Detect Errors
-        </div>
+<div className="step">
+    <strong>3.</strong>&nbsp; Detect Errors
+</div>
 
-        <div className="step">
-            4️⃣ Improve Your Code
-        </div>
+<div className="step">
+    <strong>4.</strong>&nbsp; Improve Your Code
+</div>
 
     </div>
 
