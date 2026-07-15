@@ -100,12 +100,30 @@ ${code}
 
 try {
     ai = JSON.parse(completion.choices[0].message.content);
-    if (!Array.isArray(ai.suggestions) || ai.suggestions.length === 0) {
-    ai.suggestions = [
+   // Force suggestions
+
+if (!Array.isArray(ai.suggestions)) {
+
+    ai.suggestions = [];
+
+}
+
+while (ai.suggestions.length < 4) {
+
+    const defaults = [
+
         "Use meaningful variable names.",
-        "Add comments for better readability.",
-        "Handle exceptions where necessary."
+
+        "Improve code readability.",
+
+        "Handle exceptions properly.",
+
+        "Follow language coding standards."
+
     ];
+
+    ai.suggestions.push(defaults[ai.suggestions.length]);
+
 }
 } catch {
 
@@ -142,6 +160,7 @@ try {
             ]
 
         );
+        console.log("AI RESPONSE:", ai);
 
         return res.json({
 
