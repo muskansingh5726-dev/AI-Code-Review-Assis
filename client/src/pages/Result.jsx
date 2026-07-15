@@ -69,8 +69,12 @@ function Result() {
                 <pre className="error-box">
 
                     {Array.isArray(errors)
-                        ? errors.join("\n")
-                        : errors || "No Errors Found"}
+    ? errors.length === 0
+        ? "No Errors Found"
+        : errors.map(
+              (e) => `Line ${e.line}: ${e.message}`
+          ).join("\n")
+    : errors || "No Errors Found"}
 
                 </pre>
 
