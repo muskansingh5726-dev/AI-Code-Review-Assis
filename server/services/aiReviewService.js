@@ -6,7 +6,6 @@ import Groq from "groq-sdk";
 export const reviewWithAI = async ({
   language,
   code,
-  compilerResult,
 }) => {
 
   const groq = new Groq({
@@ -16,56 +15,27 @@ export const reviewWithAI = async ({
   try {
 
     const prompt = `
-You are a senior software engineer and code reviewer.
+You are an expert code reviewer.
 
-The code has ALREADY been compiled.
+Review the following code.
 
-Do NOT predict program output.
+Give:
+- Score out of 100
+- Readability suggestions
+- Performance suggestions
+- Best practices
+- Security issues
 
-Use the compiler results below to review the code.
-
-Language:
-${language}
-
-Compiler Status:
-${compilerResult.status}
-
-Compiler Errors:
-${compilerResult.compile_output || compilerResult.stderr || "None"}
-
-Program Output:
-${compilerResult.stdout || "No Output"}
-
-Execution Time:
-${compilerResult.time} sec
-
-Memory Used:
-${compilerResult.memory} KB
-
-Review ONLY the code quality.
-
-Return ONLY valid JSON.
+Return ONLY JSON.
 
 {
-  "score":95,
-  "suggestions":[
-      {
-          "category":"Readability",
-          "message":"..."
-      },
-      {
-          "category":"Performance",
-          "message":"..."
-      },
-      {
-          "category":"Security",
-          "message":"..."
-      },
-      {
-          "category":"Best Practice",
-          "message":"..."
-      }
-  ]
+ "score":90,
+ "suggestions":[
+   {
+      "category":"Readability",
+      "message":"..."
+   }
+ ]
 }
 
 Code:
@@ -77,16 +47,16 @@ ${code}
       model: "llama-3.3-70b-versatile",
       temperature: 0,
       messages: [
-        {
-          role: "system",
-          content:
-            "You are an expert code reviewer. Never execute or predict output. Use the supplied compiler result.",
-        },
-        {
-          role: "user",
-          content: prompt,
-        },
-      ],
+  {
+    role: "system",
+    content:
+      "You are an expert software engineer. Return ONLY valid JSON.",
+  },
+  {
+    role: "user",
+    content: prompt,
+  },
+],
     });
 
     let response = completion.choices[0].message.content;
