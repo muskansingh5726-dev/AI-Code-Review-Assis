@@ -113,12 +113,18 @@ export const reviewCode = async (req, res) => {
 
       suggestions: aiReview.suggestions,
     });
-  } catch (error) {
-    console.log(error);
+ } catch (error) {
+  console.error("========== REVIEW ERROR ==========");
+  console.error(error);
+  console.error(error.stack);
 
-    return res.status(500).json({
-      success: false,
-      message: "Code Review Failed",
-    });
+  if (error.response) {
+    console.error(error.response.data);
   }
+
+  return res.status(500).json({
+    success: false,
+    message: "Code Review Failed",
+  });
+}
 };
