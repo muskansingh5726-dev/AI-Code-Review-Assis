@@ -1,137 +1,168 @@
 import "../styles/Review.css";
 import { useState } from "react";
-import API from "../api/api";
 import { useNavigate } from "react-router-dom";
+import Editor from "@monaco-editor/react";
+import API from "../api/api";
 
 function Review() {
+  const navigate = useNavigate();
 
-    const [language, setLanguage] = useState("Java");
-    const [code, setCode] = useState("");
-    const [loading, setLoading] = useState(false);
+  const [language, setLanguage] = useState("java");
+  const [code, setCode] = useState("");
+  const [file, setFile] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-    const navigate = useNavigate();
+  const handleFile = (e) => {
+    const selected = e.target.files[0];
 
-    const handleReview = async () => {
+    if (!selected) return;
 
-        if (!code.trim()) {
-            alert("Please paste your code.");
-            return;
-        }
+    setFile(selected);
 
-        try {
+    const reader = new FileReader();
 
-            setLoading(true);
+    reader.onload = (event) => {
+      setCode(event.target.result);
 
-            const token = localStorage.getItem("token");
+      const extension = selected.name.split(".").pop().toLowerCase();
 
-           const response = await API.post(
-    "/review",
-    {
-        language,
-        code
-    },
-    {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    }
-);
+      const map = {
+        java: "java",
+        py: "python",
+        js: "javascript",
+        cpp: "cpp",
+        c: "c",
+      };
 
-console.log("Backend Response:", response.data);
-
-navigate("/result", {
-    state: {
-        language: response.data.language,
-        status: response.data.status,
-        errors: response.data.errors,
-        output: response.data.output,
-        suggestions: response.data.suggestions
-    }
-});
-
-        } catch (error) {
-
-            console.log(error);
-
-            alert(
-                error.response?.data?.message ||
-                "Review Failed."
-            );
-
-        } finally {
-
-            setLoading(false);
-
-        }
-
+      setLanguage(map[extension] || "java");
     };
 
-    return (
+    reader.readAsText(selected);
+  };
 
-        <div className="review-page">
+  const handleReview = async () => {
+    if (!code.trim()) {
+      alert("Please enter code.");
+      return;
+    }
 
-            <h1>New Code Review</h1>
+    try {
+      setLoading(true);
 
-            <p>
-                Paste your code below to receive an AI review.
-            </p>
+      const token = localStorage.getItem("token");
 
-            <div className="review-container">
+      const formData = new FormData();
 
-                <div className="editor-section">
+      formData.append("language", language);
+      formData.append("code", code);
 
-                    <label>Paste Code</label>
+      if (file) {
+        formData.append("file", file);
+      }
 
-                    <textarea
-                        rows="18"
-                        placeholder="Paste your code here..."
-                        value={code}
-                        onChange={(e) => setCode(e.target.value)}
-                    />
+      const { data } = await API.post(
+        "/review",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
-                </div>
+      navigate("/result", {
+        state: {
+          language: data.language,
+          compilerStatus: data.compilerStatus,
+          stdout: data.stdout,
+          stderr: data.stderr,
+          compileOutput: data.compileOutput,
+          executionTime: data.executionTime,
+          memory: data.memory,
+          score: data.score,
+          suggestions: data.suggestions,
+        },
+      });
+    } catch (err) {
+      console.log(err);
 
-                <div className="options-section">
+      alert(
+        err.response?.data?.message ||
+          "Review Failed"
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
-                    <label>Select Language</label>
+  return (
+    <div className="review-page">
+      <h1>AI Code Review</h1>
 
-                    <select
-                        value={language}
-                        onChange={(e) =>
-                            setLanguage(e.target.value)
-                        }
-                    >
+      <p>
+        Paste code or upload a source file for AI review.
+      </p>
 
-                        <option>Java</option>
-                        <option>Python</option>
-                        <option>JavaScript</option>
-                        <option>C++</option>
-                        <option>C</option>
+      <div className="review-container">
+        <div className="editor-section">
+          <label>Source Code</label>
 
-                    </select>
-
-                    <button
-                        onClick={handleReview}
-                        disabled={loading}
-                    >
-
-                       {loading ? (
-    <>
-        🤖 Reviewing...
-    </>
-) : (
-    "Review Code"
-)}
-                    </button>
-
-                </div>
-
-            </div>
-
+          <Editor
+            height="600px"
+            language={language}
+            theme="vs-dark"
+            value={code}
+            onChange={(value) => setCode(value || "")}
+            options={{
+              minimap: { enabled: false },
+              automaticLayout: true,
+              fontSize: 15,
+              scrollBeyondLastLine: false,
+            }}
+          />
         </div>
 
-    );
+        <div className="options-section">
+          <label>Programming Language</label>
 
+          <select
+            value={language}
+            onChange={(e) => setLanguage(e.target.value)}
+          >
+            <option value="java">Java</option>
+            <option value="python">Python</option>
+            <option value="javascript">JavaScript</option>
+            <option value="cpp">C++</option>
+            <option value="c">C</option>
+          </select>
+
+          <label>Upload Source File</label>
+
+          <input
+            type="file"
+            accept=".java,.py,.js,.cpp,.c"
+            onChange={handleFile}
+          />
+
+          {file && (
+            <p>
+              📄 <strong>{file.name}</strong>
+            </p>
+          )}
+
+          <button
+            disabled={loading}
+            onClick={handleReview}
+          >
+            {loading
+              ? "Reviewing..."
+              : "Review Code"}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default Review;

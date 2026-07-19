@@ -1,133 +1,121 @@
 import "../styles/Dashboard.css";
 import { useEffect, useState } from "react";
 import API from "../api/api";
-import Sidebar from "../components/Sidebar";
+import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
+  const navigate = useNavigate();
 
-    const [stats, setStats] = useState({
-        totalReviews: 0,
-        mostUsedLanguage: "N/A",
-        latestReview: null,
-        weeklyReviews: 0,
-        recentReviews: []
-    });
+  const [reviews, setReviews] = useState([]);
 
-    const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    loadReviews();
+  }, []);
 
-    const user = JSON.parse(localStorage.getItem("user"));
+  const loadReviews = async () => {
+    try {
+      const token = localStorage.getItem("token");
 
-    useEffect(() => {
-        fetchDashboard();
-    }, []);
+      const { data } = await API.get("/history", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    const fetchDashboard = async () => {
-
-        try {
-
-            const token = localStorage.getItem("token");
-
-            const response = await API.get("/dashboard", {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-
-            setStats(response.data);
-
-        } catch (error) {
-
-            console.log(error);
-
-        } finally {
-
-            setLoading(false);
-
-        }
-
-    };
-
-    if (loading) {
-        return <h2>Loading Dashboard...</h2>;
+      setReviews(data.reviews);
+    } catch (err) {
+      console.log(err);
     }
+  };
 
-    return (
+  const totalReviews = reviews.length;
 
-        <div className="dashboard-layout">
+  const averageScore =
+    totalReviews === 0
+      ? 0
+      : (
+          reviews.reduce(
+            (sum, review) => sum + (review.score || 0),
+            0
+          ) / totalReviews
+        ).toFixed(1);
 
-            <Sidebar />
+  const successfulReviews = reviews.filter(
+    (review) => review.compiler_status === "Accepted"
+  ).length;
 
-            <div className="dashboard-page">
+  const favoriteLanguage =
+    reviews.length > 0
+      ? reviews.sort((a, b) => a.language.localeCompare(b.language))[0]
+          ?.language
+      : "-";
 
-                <h1>Welcome, {user?.name} 👋</h1>
+  return (
+    <div className="dashboard-page">
+      <h1>Dashboard</h1>
 
-                <p>Here's your coding activity.</p>
+      <p>Welcome back! Here's your review summary.</p>
 
-                <div className="dashboard-grid">
-
-                    <div className="dashboard-card">
-                        <h3>Total Reviews</h3>
-                        <h2>{stats.totalReviews}</h2>
-                    </div>
-
-                    <div className="dashboard-card">
-                        <h3>Favourite Language</h3>
-                        <h2>{stats.mostUsedLanguage}</h2>
-                    </div>
-
-                    <div className="dashboard-card">
-                        <h3>Reviews This Week</h3>
-                        <h2>{stats.weeklyReviews}</h2>
-                    </div>
-
-                    <div className="dashboard-card">
-                        <h3>Latest Review</h3>
-                        <h2>
-                            {stats.latestReview
-                                ? new Date(stats.latestReview).toLocaleDateString()
-                                : "No Reviews"}
-                        </h2>
-                    </div>
-
-                </div>
-
-                <div className="recent-section">
-
-                    <h2>Recent Reviews</h2>
-
-                    {stats.recentReviews.length === 0 ? (
-
-                        <p>No reviews yet.</p>
-
-                    ) : (
-
-                        stats.recentReviews.map((review) => (
-
-                            <div
-                                className="recent-card"
-                                key={review.id}
-                            >
-
-                                <h3>{review.language}</h3>
-
-                                <p>
-                                    {new Date(review.created_at).toLocaleString()}
-                                </p>
-
-                            </div>
-
-                        ))
-
-                    )}
-
-                </div>
-
-            </div>
-
+      <div className="dashboard-grid">
+        <div className="dashboard-card">
+          <h2>{totalReviews}</h2>
+          <p>Total Reviews</p>
         </div>
 
-    );
+        <div className="dashboard-card">
+          <h2>{averageScore}</h2>
+          <p>Average Score</p>
+        </div>
 
+        <div className="dashboard-card">
+          <h2>{successfulReviews}</h2>
+          <p>Successful Runs</p>
+        </div>
+
+        <div className="dashboard-card">
+          <h2>{favoriteLanguage}</h2>
+          <p>Language Used</p>
+        </div>
+      </div>
+
+      <div className="dashboard-actions">
+        <button onClick={() => navigate("/review")}>
+          New Review
+        </button>
+
+        <button onClick={() => navigate("/history")}>
+          View History
+        </button>
+      </div>
+
+      <h2 style={{ marginTop: "50px" }}>
+        Recent Reviews
+      </h2>
+
+      {reviews.slice(0, 5).map((review) => (
+        <div
+          key={review.id}
+          className="recent-card"
+        >
+          <h3>{review.language}</h3>
+
+          <p>
+            Score: {review.score}/100
+          </p>
+
+          <p>
+            Status: {review.compiler_status}
+          </p>
+
+          <small>
+            {new Date(
+              review.created_at
+            ).toLocaleString()}
+          </small>
+        </div>
+      ))}
+    </div>
+  );
 }
 
 export default Dashboard;

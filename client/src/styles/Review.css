@@ -1,137 +1,78 @@
-.review-page{
-
-padding:40px;
-
-background:#F8FAFC;
-
-min-height:100vh;
-
+.review-page {
+  min-height: 100vh;
+  background: #f4f7fb;
+  padding: 40px;
 }
 
-.review-page h1{
-
-font-size:38px;
-
-margin-bottom:10px;
-
+.review-page h1 {
+  font-size: 40px;
+  margin-bottom: 10px;
 }
 
-.review-page p{
-
-color:#666;
-
-margin-bottom:30px;
-
+.review-page p {
+  color: #666;
+  margin-bottom: 30px;
 }
 
-.review-container{
-
-display:grid;
-
-grid-template-columns:2fr 1fr;
-
-gap:30px;
-
+.review-container {
+  display: grid;
+  grid-template-columns: 2.5fr 1fr;
+  gap: 25px;
 }
 
-.editor-section{
-
-background:white;
-
-padding:25px;
-
-border-radius:18px;
-
-box-shadow:0 10px 30px rgba(0,0,0,.08);
-
+.editor-section,
+.options-section {
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.08);
 }
 
-.editor-section textarea{
-
-width:100%;
-
-padding:20px;
-
-font-size:15px;
-
-border:1px solid #ddd;
-
-border-radius:12px;
-
-resize:none;
-
-font-family:monospace;
-
+.editor-section label,
+.options-section label {
+  display: block;
+  margin-bottom: 12px;
+  font-weight: 600;
 }
 
-.options-section{
-
-background:white;
-
-padding:25px;
-
-border-radius:18px;
-
-box-shadow:0 10px 30px rgba(0,0,0,.08);
-
-display:flex;
-
-flex-direction:column;
-
-gap:18px;
-
+.options-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.options-section select,
-.options-section input{
-
-padding:12px;
-
-border:1px solid #ddd;
-
-border-radius:8px;
-
+.options-section select {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
 }
 
-.options-section button{
-
-padding:15px;
-
-background:#7C3AED;
-
-color:white;
-
-border:none;
-
-border-radius:10px;
-
-font-size:16px;
-
-cursor:pointer;
-
-transition:.3s;
-
+.options-section button {
+  padding: 15px;
+  background: #7c3aed;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 16px;
 }
 
-.options-section button:hover{
-
-background:#6D28D9;
-
+.options-section button:hover:not(:disabled) {
+  background: #6d28d9;
 }
 
-@media(max-width:900px){
-
-.review-container{
-
-grid-template-columns:1fr;
-
+.options-section button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }
 
-}
-button:disabled{
+@media (max-width: 900px) {
+  .review-container {
+    grid-template-columns: 1fr;
+  }
 
-opacity:.8;
-
-cursor:not-allowed;
-
+  .review-page {
+    padding: 20px;
+  }
 }

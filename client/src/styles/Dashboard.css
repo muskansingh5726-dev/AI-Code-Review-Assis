@@ -1,200 +1,75 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Segoe UI',sans-serif;
+.dashboard-page {
+  padding: 40px;
+  background: #f5f7fb;
+  min-height: 100vh;
 }
 
-body{
-    background:#f4f7fc;
+.dashboard-page h1 {
+  font-size: 38px;
+  margin-bottom: 10px;
 }
 
-/* ---------- Dashboard Layout ---------- */
-
-.dashboard-layout{
-    display:flex;
-    min-height:100vh;
+.dashboard-page p {
+  color: #666;
 }
 
-/* ---------- Sidebar ---------- */
-
-.sidebar{
-    width:260px;
-    background:#111827;
-    color:white;
-    padding:30px 20px;
-    display:flex;
-    flex-direction:column;
-    position:fixed;
-    left:0;
-    top:0;
-    bottom:0;
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+  margin-top: 35px;
 }
 
-.sidebar h2{
-    text-align:center;
-    margin-bottom:40px;
-    color:#60a5fa;
+.dashboard-card {
+  background: white;
+  border-radius: 18px;
+  padding: 25px;
+  box-shadow: 0 8px 25px rgba(0,0,0,.08);
+  text-align: center;
 }
 
-.sidebar a{
-    text-decoration:none;
-    color:#d1d5db;
-    padding:15px;
-    margin-bottom:10px;
-    border-radius:10px;
-    display:flex;
-    align-items:center;
-    gap:12px;
-    transition:.3s;
-    font-size:17px;
+.dashboard-card h2 {
+  font-size: 42px;
+  color: #6d28d9;
 }
 
-.sidebar a:hover{
-    background:#1f2937;
-    color:white;
+.dashboard-card p {
+  margin-top: 10px;
 }
 
-.sidebar a.active{
-    background:#2563eb;
-    color:white;
+.dashboard-actions {
+  margin-top: 40px;
+  display: flex;
+  gap: 20px;
 }
 
-.sidebar button{
-    margin-top:auto;
-    background:#ef4444;
-    color:white;
-    border:none;
-    padding:14px;
-    border-radius:10px;
-    cursor:pointer;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:10px;
-    font-size:16px;
-    transition:.3s;
+.dashboard-actions button {
+  padding: 14px 22px;
+  border: none;
+  border-radius: 10px;
+  background: #6d28d9;
+  color: white;
+  cursor: pointer;
 }
 
-.sidebar button:hover{
-    background:#dc2626;
+.dashboard-actions button:hover {
+  background: #5b21b6;
 }
 
-/* ---------- Main Dashboard ---------- */
-
-.dashboard-page{
-    margin-left:260px;
-    width:100%;
-    padding:40px;
+.recent-card {
+  background: white;
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,.08);
 }
 
-.dashboard-page h1{
-    color:#1f2937;
-    margin-bottom:10px;
-}
+@media (max-width: 900px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
 
-.dashboard-page p{
-    color:#6b7280;
-}
-
-/* ---------- Cards ---------- */
-
-.dashboard-grid{
-    margin-top:35px;
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
-    gap:25px;
-}
-
-.dashboard-card{
-    background:white;
-    border-radius:16px;
-    padding:30px;
-    box-shadow:0 8px 20px rgba(0,0,0,.08);
-    transition:.3s;
-}
-
-.dashboard-card:hover{
-    transform:translateY(-5px);
-}
-
-.dashboard-card h3{
-    color:#6b7280;
-    margin-bottom:15px;
-    font-size:17px;
-}
-
-.dashboard-card h2{
-    color:#2563eb;
-    font-size:34px;
-}
-
-/* ---------- Recent Reviews ---------- */
-
-.recent-section{
-    margin-top:45px;
-}
-
-.recent-section h2{
-    margin-bottom:20px;
-    color:#1f2937;
-}
-
-.recent-card{
-    background:white;
-    border-radius:14px;
-    padding:20px;
-    margin-bottom:18px;
-    box-shadow:0 5px 15px rgba(0,0,0,.06);
-    transition:.3s;
-}
-
-.recent-card:hover{
-    transform:translateY(-3px);
-}
-
-.recent-card h3{
-    color:#2563eb;
-    margin-bottom:8px;
-}
-
-.recent-card p{
-    color:#6b7280;
-}
-
-/* ---------- Responsive ---------- */
-
-@media(max-width:900px){
-
-.sidebar{
-    width:75px;
-    padding:20px 10px;
-}
-
-.sidebar h2{
-    display:none;
-}
-
-.sidebar a{
-    justify-content:center;
-    font-size:0;
-}
-
-.sidebar a svg{
-    font-size:22px;
-}
-
-.sidebar button{
-    font-size:0;
-}
-
-.sidebar button svg{
-    font-size:22px;
-}
-
-.dashboard-page{
-    margin-left:75px;
-    padding:25px;
-}
-
+  .dashboard-actions {
+    flex-direction: column;
+  }
 }

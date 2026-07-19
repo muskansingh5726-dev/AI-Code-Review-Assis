@@ -3,110 +3,124 @@ import { useEffect, useState } from "react";
 import API from "../api/api";
 
 function History() {
+  const [reviews, setReviews] = useState([]);
 
-    const [reviews, setReviews] = useState([]);
+  useEffect(() => {
+    fetchHistory();
+  }, []);
 
-    useEffect(() => {
-        fetchHistory();
-    }, []);
+  const fetchHistory = async () => {
+    try {
+      const token = localStorage.getItem("token");
 
-    const fetchHistory = async () => {
+      const response = await API.get("/history", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-        try {
+      setReviews(response.data.reviews);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-            const token = localStorage.getItem("token");
+  const deleteReview = async (id) => {
+    try {
+      const token = localStorage.getItem("token");
 
-            const response = await API.get("/history", {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
+      await API.delete(`/history/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-            setReviews(response.data.reviews);
+      fetchHistory();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-        } catch (error) {
+  return (
+    <div className="history-page">
+      <h1>Review History</h1>
 
-            console.log(error);
+      <p>All your previous AI code reviews.</p>
 
-        }
+      {reviews.length === 0 ? (
+        <h3>No reviews found.</h3>
+      ) : (
+        reviews.map((review) => (
+          <div className="history-card" key={review.id}>
+            <div className="history-header">
+              <h3>{review.language}</h3>
 
-    };
+              <span>{review.score}/100</span>
+            </div>
 
-    const deleteReview = async (id) => {
+            <p>
+              {new Date(review.created_at).toLocaleString()}
+            </p>
 
-        try {
+            <p>
+              <strong>Status:</strong>{" "}
+              {review.compiler_status}
+            </p>
 
-            const token = localStorage.getItem("token");
+            <p>
+              <strong>Execution Time:</strong>{" "}
+              {review.execution_time} sec
+            </p>
 
-            await API.delete(`/history/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
+            <p>
+              <strong>Memory:</strong>{" "}
+              {review.memory} KB
+            </p>
 
-            fetchHistory();
+            <h4>Program Output</h4>
 
-        } catch (error) {
+            <pre>{review.stdout || "No Output"}</pre>
 
-            console.log(error);
+            <h4>Compilation Errors</h4>
 
-        }
+            <pre>
+              {review.compile_output ||
+                "No Compilation Errors"}
+            </pre>
 
-    };
+            <h4>Runtime Errors</h4>
 
-    return (
+            <pre>
+              {review.stderr || "No Runtime Errors"}
+            </pre>
 
-        <div className="history-page">
+            <h4>AI Suggestions</h4>
 
-            <h1>Review History</h1>
+            {review.review?.suggestions?.length ? (
+              review.review.suggestions.map((item, index) => (
+                <div
+                  key={index}
+                  className="suggestion-item"
+                >
+                  <strong>{item.category}</strong>
 
-            <p>Your previous code reviews.</p>
+                  <p>{item.message}</p>
+                </div>
+              ))
+            ) : (
+              <p>No Suggestions</p>
+            )}
 
-            {
-
-                reviews.length === 0 ?
-
-                    <h3>No reviews yet.</h3>
-
-                    :
-
-                    reviews.map((review) => (
-
-                        <div
-                            className="history-card"
-                            key={review.id}
-                        >
-
-                            <h3>{review.language}</h3>
-
-                            <p>
-                                {new Date(
-                                    review.created_at
-                                ).toLocaleString()}
-                            </p>
-
-                            <pre>
-                                {review.review}
-                            </pre>
-
-                            <button
-                                onClick={() =>
-                                    deleteReview(review.id)
-                                }
-                            >
-                                Delete
-                            </button>
-
-                        </div>
-
-                    ))
-
-            }
-
-        </div>
-
-    );
-
+            <button
+              onClick={() => deleteReview(review.id)}
+            >
+              Delete Review
+            </button>
+          </div>
+        ))
+      )}
+    </div>
+  );
 }
 
 export default History;
