@@ -114,6 +114,7 @@ export const reviewCode = async (req, res) => {
       suggestions: aiReview.suggestions,
     });
  } catch (error) {
+
   console.error("========== REVIEW ERROR ==========");
   console.error(error);
   console.error(error.stack);
