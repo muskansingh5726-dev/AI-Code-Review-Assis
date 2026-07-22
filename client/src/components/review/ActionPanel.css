@@ -1,0 +1,108 @@
+.action-panel{
+    background:#111827;
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:18px;
+    padding:25px;
+    box-shadow:0 12px 35px rgba(0,0,0,.35);
+
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
+
+.action-panel h2{
+    font-size:22px;
+    margin-bottom:5px;
+    color:#F8FAFC;
+}
+
+.panel-group{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.panel-group label{
+    font-size:14px;
+    color:#94A3B8;
+    font-weight:600;
+}
+
+.panel-group select,
+.panel-group input[type="file"]{
+    background:#0F172A;
+    border:1px solid #334155;
+    color:white;
+    padding:13px;
+    border-radius:12px;
+    transition:.3s;
+}
+
+.panel-group select:hover,
+.panel-group input[type="file"]:hover{
+    border-color:#8B5CF6;
+}
+
+.file-name{
+    color:#8B5CF6;
+    font-size:13px;
+}
+
+.action-panel button{
+    border:none;
+    cursor:pointer;
+    border-radius:12px;
+    padding:15px;
+    font-size:15px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.run-btn{
+    background:#2563EB;
+    color:white;
+}
+
+.run-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 20px rgba(37,99,235,.35);
+}
+
+.review-btn{
+    background:linear-gradient(135deg,#8B5CF6,#6D28D9);
+    color:white;
+}
+
+.review-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 25px rgba(139,92,246,.35);
+}
+
+.fix-btn{
+    background:#1E293B;
+    color:#CBD5E1;
+    border:1px solid #334155;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.fix-btn span{
+    font-size:11px;
+    background:#334155;
+    padding:4px 8px;
+    border-radius:20px;
+}
+
+.reset-btn{
+    background:#DC2626;
+    color:white;
+}
+
+.reset-btn:hover{
+    background:#B91C1C;
+}
+
+.action-panel button:hover{
+    transform:translateY(-2px);
+}

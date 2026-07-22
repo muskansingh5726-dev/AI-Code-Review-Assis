@@ -1,0 +1,115 @@
+:root{
+
+    --bg:#0B1120;
+
+    --card:#111827;
+
+    --card2:#0F172A;
+
+    --primary:#8B5CF6;
+
+    --secondary:#2563EB;
+
+    --text:#F8FAFC;
+
+    --muted:#94A3B8;
+
+    --success:#22C55E;
+
+    --danger:#EF4444;
+
+    --warning:#F59E0B;
+
+    --radius:18px;
+
+    --shadow:0 12px 35px rgba(0,0,0,.28);
+
+}
+
+/* GLOBAL */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    background:var(--bg);
+
+    color:var(--text);
+
+    font-family:'Segoe UI',sans-serif;
+
+}
+
+/* CARD */
+
+.card{
+
+    background:var(--card);
+
+    border-radius:var(--radius);
+
+    border:1px solid rgba(255,255,255,.06);
+
+    box-shadow:var(--shadow);
+
+}
+
+/* PRIMARY BUTTON */
+
+.btn-primary{
+
+    background:linear-gradient(
+        135deg,
+        var(--primary),
+        var(--secondary)
+    );
+
+    color:white;
+
+    border:none;
+
+    padding:14px 24px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.btn-primary:hover{
+
+    transform:translateY(-2px);
+
+}
+
+/* SECONDARY BUTTON */
+
+.btn-secondary{
+
+    background:var(--card2);
+
+    color:white;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    padding:14px 24px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.btn-secondary:hover{
+
+    background:#1E293B;
+
+}

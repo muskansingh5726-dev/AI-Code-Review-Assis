@@ -1,114 +1,143 @@
 .profile-page{
+    margin-left:260px;
+    min-height:100vh;
+    background:#0B1120;
+    padding:40px;
+    color:#F8FAFC;
+}
 
-max-width:700px;
-
-margin:40px auto;
-
-padding:20px;
-
+.profile-page h1{
+    font-size:34px;
+    margin-bottom:30px;
 }
 
 .profile-card{
+    background:#111827;
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:18px;
+    padding:30px;
+    margin-bottom:30px;
+    box-shadow:0 12px 35px rgba(0,0,0,.30);
 
-background:white;
-
-padding:30px;
-
-margin-bottom:30px;
-
-border-radius:15px;
-
-box-shadow:0 5px 15px rgba(0,0,0,.08);
-
-display:flex;
-
-flex-direction:column;
-
-gap:15px;
-
+    display:flex;
+    flex-direction:column;
+    gap:18px;
 }
 
 .profile-card h2{
-
-margin-bottom:10px;
-
-color:#2563eb;
-
+    color:#F8FAFC;
+    margin-bottom:8px;
 }
 
 .profile-card input{
 
-padding:12px;
+    background:#0F172A;
 
-border:1px solid #ccc;
+    color:white;
 
-border-radius:8px;
+    border:1px solid #334155;
 
-font-size:16px;
+    border-radius:12px;
+
+    padding:14px;
+
+    font-size:15px;
+
+    outline:none;
+
+    transition:.3s;
+
+}
+
+.profile-card input:focus{
+
+    border-color:#8B5CF6;
+
+    box-shadow:0 0 0 3px rgba(139,92,246,.15);
 
 }
 
 .profile-card button{
 
-background:#2563eb;
+    background:linear-gradient(135deg,#8B5CF6,#2563EB);
 
-color:white;
+    color:white;
 
-border:none;
+    border:none;
 
-padding:12px;
+    padding:14px;
 
-border-radius:8px;
+    border-radius:12px;
 
-cursor:pointer;
+    cursor:pointer;
 
-font-size:16px;
+    font-size:15px;
+
+    font-weight:600;
+
+    transition:.3s;
 
 }
 
 .profile-card button:hover{
 
-background:#1d4ed8;
+    transform:translateY(-2px);
+
+    box-shadow:0 10px 25px rgba(139,92,246,.35);
 
 }
 
 .logout-btn{
 
-width:100%;
+    width:100%;
 
-background:#ef4444;
+    background:#DC2626;
 
-color:white;
+    color:white;
 
-border:none;
+    border:none;
 
-padding:15px;
+    padding:16px;
 
-font-size:17px;
+    border-radius:12px;
 
-border-radius:10px;
+    font-size:16px;
 
-cursor:pointer;
+    cursor:pointer;
+
+    transition:.3s;
 
 }
 
 .logout-btn:hover{
 
-background:#dc2626;
+    background:#B91C1C;
 
 }
 
-@media(max-width:768px){
+@media(max-width:992px){
 
 .profile-page{
 
-padding:15px;
+margin-left:0;
+
+padding:25px;
+
+}
+
+}
+
+@media(max-width:600px){
+
+.profile-page{
+
+padding:18px;
 
 }
 
 .profile-card{
 
-padding:20px;
+padding:22px;
 
 }
 

@@ -58,8 +58,7 @@ navigate("/dashboard");
 } catch (error) {
 
     console.log(error.response.data);    // ✅ Console
-    alert(error.response.data.message);  // ✅ Popup
-
+    toast.error(error.response?.data?.message || "Login failed");
 }
     }
 
@@ -111,7 +110,7 @@ navigate("/dashboard");
                 </div>
 
             <button type="submit">
-              Login
+              🚀 Login
             </button>
 
           </form>

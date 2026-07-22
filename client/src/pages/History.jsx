@@ -1,6 +1,7 @@
 import "../styles/History.css";
 import { useEffect, useState } from "react";
 import API from "../api/api";
+import Sidebar from "../components/Sidebar";
 
 function History() {
   const [reviews, setReviews] = useState([]);
@@ -42,84 +43,89 @@ function History() {
   };
 
   return (
-    <div className="history-page">
-      <h1>Review History</h1>
+    <>
+      <Sidebar />
 
-      <p>All your previous AI code reviews.</p>
+      <div className="history-page">
+        <h1>📜 Review History</h1>
 
-      {reviews.length === 0 ? (
-        <h3>No reviews found.</h3>
-      ) : (
-        reviews.map((review) => (
-          <div className="history-card" key={review.id}>
-            <div className="history-header">
-              <h3>{review.language}</h3>
+        <p className="history-subtitle">
+          All your previous AI Code Reviews.
+        </p>
 
-              <span>{review.score}/100</span>
-            </div>
-
-            <p>
-              {new Date(review.created_at).toLocaleString()}
-            </p>
-
-            <p>
-              <strong>Status:</strong>{" "}
-              {review.compiler_status}
-            </p>
-
-            <p>
-              <strong>Execution Time:</strong>{" "}
-              {review.execution_time} sec
-            </p>
-
-            <p>
-              <strong>Memory:</strong>{" "}
-              {review.memory} KB
-            </p>
-
-            <h4>Program Output</h4>
-
-            <pre>{review.stdout || "No Output"}</pre>
-
-            <h4>Compilation Errors</h4>
-
-            <pre>
-              {review.compile_output ||
-                "No Compilation Errors"}
-            </pre>
-
-            <h4>Runtime Errors</h4>
-
-            <pre>
-              {review.stderr || "No Runtime Errors"}
-            </pre>
-
-            <h4>AI Suggestions</h4>
-
-            {review.review?.suggestions?.length ? (
-              review.review.suggestions.map((item, index) => (
-                <div
-                  key={index}
-                  className="suggestion-item"
-                >
-                  <strong>{item.category}</strong>
-
-                  <p>{item.message}</p>
-                </div>
-              ))
-            ) : (
-              <p>No Suggestions</p>
-            )}
-
-            <button
-              onClick={() => deleteReview(review.id)}
-            >
-              Delete Review
-            </button>
+        {reviews.length === 0 ? (
+          <div className="empty-history">
+            <h2>No Reviews Found 😕</h2>
+            <p>Start reviewing your code to build your history.</p>
           </div>
-        ))
-      )}
-    </div>
+        ) : (
+          reviews.map((review) => (
+            <div className="history-card" key={review.id}>
+              <div className="history-header">
+                <div>
+                  <h2>{review.language}</h2>
+
+                  <small>
+                    {new Date(review.created_at).toLocaleString()}
+                  </small>
+                </div>
+
+                <div className="score-box">
+                  ⭐ {review.score}/100
+                </div>
+              </div>
+
+              <div className="status-row">
+                <span>
+                  <strong>Status:</strong>{" "}
+                  {review.compiler_status}
+                </span>
+
+                <span>
+                  <strong>Execution:</strong>{" "}
+                  {review.execution_time}s
+                </span>
+
+                <span>
+                  <strong>Memory:</strong>{" "}
+                  {review.memory} KB
+                </span>
+              </div>
+
+              <h3>💻 Submitted Code</h3>
+
+              <pre className="code-block">
+                {review.code}
+              </pre>
+
+              <h3>🤖 AI Suggestions</h3>
+
+              {review.review?.suggestions?.length ? (
+                review.review.suggestions.map((item, index) => (
+                  <div
+                    className="suggestion-card"
+                    key={index}
+                  >
+                    <h4>{item.category}</h4>
+
+                    <p>{item.message}</p>
+                  </div>
+                ))
+              ) : (
+                <p>No Suggestions Available.</p>
+              )}
+
+              <button
+                className="delete-btn"
+                onClick={() => deleteReview(review.id)}
+              >
+                🗑 Delete Review
+              </button>
+            </div>
+          ))
+        )}
+      </div>
+    </>
   );
 }
 

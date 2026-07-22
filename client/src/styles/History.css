@@ -1,180 +1,141 @@
 .history-page {
-
-    max-width: 1100px;
-    margin: auto;
-    padding: 40px 20px;
-
+  margin-left: 260px;
+  min-height: 100vh;
+  padding: 40px;
+  background: #f5f7fb;
 }
 
 .history-page h1 {
-
-    font-size: 38px;
-    color: #1e293b;
-    margin-bottom: 10px;
-
+  font-size: 38px;
+  color: #111827;
+  margin-bottom: 10px;
 }
 
-.history-page p {
+.history-subtitle {
+  color: #6b7280;
+  margin-bottom: 35px;
+}
 
-    color: #64748b;
-    margin-bottom: 30px;
+.empty-history {
+  background: white;
+  border-radius: 18px;
+  padding: 60px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,.08);
+}
 
+.empty-history h2 {
+  color: #7c3aed;
+  margin-bottom: 15px;
 }
 
 .history-card {
+  background: white;
+  border-radius: 18px;
+  padding: 25px;
+  margin-bottom: 30px;
+  box-shadow: 0 10px 25px rgba(0,0,0,.08);
+  transition: .3s;
+}
 
-    background: white;
-    border-radius: 15px;
-    padding: 25px;
-    margin-bottom: 25px;
-    box-shadow: 0 8px 20px rgba(0,0,0,.08);
+.history-card:hover {
+  transform: translateY(-4px);
+}
 
-    display: flex;
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
+}
+
+.history-header h2 {
+  color: #111827;
+  margin-bottom: 5px;
+}
+
+.history-header small {
+  color: #777;
+}
+
+.score-box {
+  background: #ede9fe;
+  color: #7c3aed;
+  font-weight: bold;
+  padding: 10px 18px;
+  border-radius: 25px;
+}
+
+.status-row {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin-bottom: 25px;
+  color: #444;
+}
+
+.code-block {
+  background: #111827;
+  color: #22c55e;
+  padding: 18px;
+  border-radius: 10px;
+  overflow-x: auto;
+  margin: 15px 0 30px;
+  font-size: 14px;
+}
+
+.suggestion-card {
+  background: #faf5ff;
+  border-left: 5px solid #7c3aed;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.suggestion-card h4 {
+  color: #7c3aed;
+  margin-bottom: 8px;
+}
+
+.suggestion-card p {
+  color: #444;
+  line-height: 1.5;
+}
+
+.delete-btn {
+  margin-top: 20px;
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: .3s;
+  font-size: 15px;
+}
+
+.delete-btn:hover {
+  background: #dc2626;
+}
+
+@media (max-width: 768px) {
+
+  .history-page {
+    margin-left: 0;
+    padding: 20px;
+  }
+
+  .history-header {
     flex-direction: column;
+    align-items: flex-start;
     gap: 15px;
-
-    overflow: hidden;
-
-}
-
-.history-top {
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 15px;
-
-    flex-wrap: wrap;
-
-}
-
-.history-top h3 {
-
-    color: #2563eb;
-    font-size: 24px;
-    word-break: break-word;
-
-}
-
-.history-top p {
-
-    margin: 0;
-    color: #6b7280;
-
-}
-
-.history-card pre {
-
-    background: #0f172a;
-    color: #22c55e;
-
-    padding: 18px;
-
-    border-radius: 10px;
-
-    white-space: pre-wrap;
-    word-break: break-word;
-
-    overflow-x: auto;
-
-    font-size: 15px;
-
-}
-
-.history-card button {
-
-    align-self: flex-end;
-
-    background: #ef4444;
-
-    color: white;
-
-    border: none;
-
-    padding: 10px 22px;
-
-    border-radius: 8px;
-
-    cursor: pointer;
-
-    transition: .3s;
-
-}
-
-.history-card button:hover {
-
-    background: #dc2626;
-
-}
-
-/* ---------- Tablet ---------- */
-
-@media (max-width:768px){
-
-.history-page{
-
-padding:20px;
-
-}
-
-.history-page h1{
-
-font-size:30px;
-
-}
-
-.history-top{
-
-flex-direction:column;
-
-align-items:flex-start;
-
-}
-
-.history-card button{
-
-width:100%;
-
-align-self:stretch;
-
-}
-
-}
-
-/* ---------- Mobile ---------- */
-
-@media (max-width:480px){
-
-.history-page{
-
-padding:15px;
-
-}
-
-.history-page h1{
-
-font-size:26px;
-
-}
-
-.history-card{
-
-padding:18px;
-
-}
-
-.history-top h3{
-
-font-size:20px;
-
-}
-
-.history-card pre{
-
-font-size:13px;
-
-padding:14px;
-
-}
+  }
+
+  .status-row {
+    flex-direction: column;
+    gap: 10px;
+  }
 
 }

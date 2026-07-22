@@ -1,0 +1,124 @@
+.console-panel{
+    background:#111827;
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 12px 35px rgba(0,0,0,.35);
+}
+
+.console-header{
+    height:55px;
+    background:#0F172A;
+    border-bottom:1px solid rgba(255,255,255,.06);
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:0 22px;
+}
+
+.console-header h3{
+    font-size:18px;
+    color:#F8FAFC;
+}
+
+.status{
+    padding:6px 14px;
+    border-radius:25px;
+    font-size:13px;
+    font-weight:600;
+}
+
+.status.idle{
+    background:#334155;
+    color:white;
+}
+
+.status.running{
+    background:#F59E0B;
+    color:white;
+}
+
+.status.completed{
+    background:#22C55E;
+    color:white;
+}
+
+.status.error{
+    background:#EF4444;
+    color:white;
+}
+
+.console-output{
+    background:#020617;
+    color:#22C55E;
+
+    min-height:230px;
+
+    padding:20px;
+
+    font-family:"Consolas","Courier New",monospace;
+
+    overflow:auto;
+
+    line-height:1.7;
+}
+
+.console-output pre{
+    white-space:pre-wrap;
+    word-break:break-word;
+    margin:0;
+    font-size:15px;
+}
+
+.console-footer{
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:20px;
+
+    padding:20px;
+
+    border-top:1px solid rgba(255,255,255,.06);
+
+    background:#0F172A;
+
+}
+
+.console-footer div{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+}
+
+.console-footer strong{
+
+    color:#94A3B8;
+    font-size:13px;
+
+}
+
+.console-footer span{
+
+    color:white;
+    font-size:18px;
+    font-weight:600;
+
+}
+
+@media(max-width:700px){
+
+.console-footer{
+
+grid-template-columns:1fr;
+
+}
+
+}

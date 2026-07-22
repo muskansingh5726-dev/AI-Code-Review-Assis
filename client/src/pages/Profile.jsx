@@ -1,6 +1,7 @@
 import "../styles/Profile.css";
 import { useEffect, useState } from "react";
 import API from "../api/api";
+import Sidebar from "../components/Sidebar";
 import { useNavigate } from "react-router-dom";
 
 function Profile() {
@@ -114,7 +115,9 @@ function Profile() {
 
     };
 
-    return (
+      return (
+    <>
+        <Sidebar />
 
         <div className="profile-page">
 
@@ -181,9 +184,9 @@ function Profile() {
                 Logout
             </button>
 
-        </div>
-
-    );
+                </div>
+    </>
+);
 
 }
 

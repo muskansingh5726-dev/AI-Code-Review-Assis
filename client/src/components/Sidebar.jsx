@@ -1,61 +1,54 @@
-import {
-    FaHome,
-    FaCode,
-    FaHistory,
-    FaUser,
-    FaSignOutAlt
-} from "react-icons/fa";
-
+import "./Sidebar.css";
 import { NavLink, useNavigate } from "react-router-dom";
 
 function Sidebar() {
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
+  const logout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
 
-    const logout = () => {
+  return (
+    <aside className="sidebar">
 
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
+      <div className="logo">
 
-        navigate("/");
+        <div className="logo-icon">AI</div>
 
-    };
-
-    return (
-
-        <div className="sidebar">
-
-            <h2>🤖 AI Review</h2>
-
-            <NavLink to="/dashboard">
-                <FaHome />
-                Dashboard
-            </NavLink>
-
-            <NavLink to="/review">
-                <FaCode />
-                New Review
-            </NavLink>
-
-            <NavLink to="/history">
-                <FaHistory />
-                History
-            </NavLink>
-
-            <NavLink to="/profile">
-                <FaUser />
-                Profile
-            </NavLink>
-
-            <button onClick={logout}>
-                <FaSignOutAlt />
-                Logout
-            </button>
-
+        <div>
+          <h2>CodeReview</h2>
+          <span>Assistant</span>
         </div>
 
-    );
+      </div>
 
+      <nav>
+
+        <NavLink to="/dashboard" className="nav-item">
+          🏠 Dashboard
+        </NavLink>
+
+        <NavLink to="/review" className="nav-item">
+          💻 Review
+        </NavLink>
+
+        <NavLink to="/history" className="nav-item">
+          📜 History
+        </NavLink>
+
+        <NavLink to="/profile" className="nav-item">
+          👤 Profile
+        </NavLink>
+
+      </nav>
+
+      <button className="logout-btn" onClick={logout}>
+        🚪 Logout
+      </button>
+
+    </aside>
+  );
 }
 
 export default Sidebar;

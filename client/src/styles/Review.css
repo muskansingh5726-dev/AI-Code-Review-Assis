@@ -1,78 +1,200 @@
-.review-page {
-  min-height: 100vh;
-  background: #f4f7fb;
-  padding: 40px;
+/* ===========================
+   REVIEW WORKSPACE
+=========================== */
+
+*{
+    box-sizing:border-box;
 }
 
-.review-page h1 {
-  font-size: 40px;
-  margin-bottom: 10px;
+.review-layout{
+    display:flex;
+    min-height:100vh;
+    background:#0B1120;
+    color:#F8FAFC;
 }
 
-.review-page p {
-  color: #666;
-  margin-bottom: 30px;
+.workspace{
+    flex:1;
+    padding:30px;
+    overflow-y:auto;
+
+    background:
+    radial-gradient(circle at top left,#312E81 0%,transparent 35%),
+    radial-gradient(circle at bottom right,#1D4ED8 0%,transparent 30%),
+    #0B1120;
 }
 
-.review-container {
-  display: grid;
-  grid-template-columns: 2.5fr 1fr;
-  gap: 25px;
+.workspace-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:30px;
 }
 
-.editor-section,
-.options-section {
-  background: white;
-  border-radius: 15px;
-  padding: 20px;
-  box-shadow: 0 10px 30px rgba(0,0,0,.08);
+.workspace-header h1{
+    font-size:34px;
+    font-weight:700;
+    margin-bottom:8px;
 }
 
-.editor-section label,
-.options-section label {
-  display: block;
-  margin-bottom: 12px;
-  font-weight: 600;
+.workspace-header p{
+    color:#94A3B8;
+    font-size:15px;
 }
 
-.options-section {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+.workspace-grid{
+    display:grid;
+    grid-template-columns:2.2fr 380px;
+    gap:25px;
 }
 
-.options-section select {
-  padding: 12px;
-  border-radius: 10px;
-  border: 1px solid #ddd;
+.editor-area{
+    display:flex;
+    flex-direction:column;
+    gap:25px;
 }
 
-.options-section button {
-  padding: 15px;
-  background: #7c3aed;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: 0.3s;
-  font-size: 16px;
+.editor-card{
+
+    background:#111827;
+
+    border:1px solid rgba(255,255,255,.06);
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    box-shadow:
+    0 10px 35px rgba(0,0,0,.35);
+
+    transition:.35s;
+
 }
 
-.options-section button:hover:not(:disabled) {
-  background: #6d28d9;
+.editor-card:hover{
+
+    border-color:#8B5CF6;
+
 }
 
-.options-section button:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
+.editor-topbar{
+
+    height:55px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:0 20px;
+
+    background:#0F172A;
+
+    border-bottom:1px solid rgba(255,255,255,.05);
+
 }
 
-@media (max-width: 900px) {
-  .review-container {
-    grid-template-columns: 1fr;
-  }
+.editor-file{
 
-  .review-page {
-    padding: 20px;
-  }
+    font-weight:600;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+}
+
+.editor-language{
+
+    background:linear-gradient(135deg,#8B5CF6,#6D28D9);
+
+    padding:6px 16px;
+
+    border-radius:25px;
+
+    font-size:13px;
+
+    font-weight:600;
+
+}
+
+.side-panels{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:25px;
+
+}
+
+.monaco-editor,
+.monaco-editor-background{
+
+    border-radius:0 0 18px 18px;
+
+}
+
+::-webkit-scrollbar{
+
+    width:10px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#334155;
+
+    border-radius:10px;
+
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+    background:#475569;
+
+}
+
+@media(max-width:1200px){
+
+.workspace-grid{
+
+grid-template-columns:1fr;
+
+}
+
+.side-panels{
+
+order:-1;
+
+}
+
+}
+
+@media(max-width:768px){
+
+.workspace{
+
+padding:18px;
+
+}
+
+.workspace-header{
+
+flex-direction:column;
+align-items:flex-start;
+gap:10px;
+
+}
+
+.workspace-header h1{
+
+font-size:26px;
+
+}
+
 }
