@@ -10,6 +10,7 @@ import historyRoutes from "./routes/historyRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
 import profileRoutes from "./routes/profileRoutes.js";
 import healthRoutes from "./routes/healthRoutes.js";
+import runRoutes from "./routes/run.js";
 
 import pool from "./config/db.js";
 
@@ -27,11 +28,12 @@ app.use("/api/review", reviewRoutes);
 app.use("/api/history", historyRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/profile", profileRoutes);
+app.use("/api/run", runRoutes);
 
 pool
-  .connect()
-  .then(() => console.log("✅ PostgreSQL Connected"))
-  .catch(console.error);
+  .query("SELECT NOW()")
+  .then(() => console.log("✅ Database Ready"))
+  .catch((err) => console.error("❌ Database Error:", err));
 
 const PORT = process.env.PORT || 5000;
 
