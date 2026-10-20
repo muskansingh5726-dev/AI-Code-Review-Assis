@@ -1,3 +1,4 @@
+
 import "../styles/Review.css";
 import { useState } from "react";
 import Editor from "@monaco-editor/react";
@@ -11,14 +12,17 @@ import ConsolePanel from "../components/review/ConsolePanel";
 import ReviewSummary from "../components/review/ReviewSummary";
 
 function Review() {
-
   const [language, setLanguage] = useState("java");
   const [code, setCode] = useState("");
   const [file, setFile] = useState(null);
-  const [loading, setLoading] = useState(false);
 
+  // Keep execution and AI review independent.
+  const [isRunning, setIsRunning] = useState(false);
+  const [isReviewing, setIsReviewing] = useState(false);
+
+  const [programInput, setProgramInput] = useState("");
   const [consoleOutput, setConsoleOutput] = useState(
-    "Ready. Click 'Run Code' to execute your program."
+    "Ready. Enter your code and click Run Code."
   );
 
   const [executionTime, setExecutionTime] = useState("--");
@@ -35,8 +39,7 @@ function Review() {
   });
 
   const handleFile = (e) => {
-    const selected = e.target.files[0];
-
+    const selected = e.target.files?.[0];
     if (!selected) return;
 
     setFile(selected);
@@ -44,10 +47,9 @@ function Review() {
     const reader = new FileReader();
 
     reader.onload = (event) => {
-      setCode(event.target.result);
+      setCode(String(event.target?.result ?? ""));
 
       const extension = selected.name.split(".").pop().toLowerCase();
-
       const map = {
         java: "java",
         py: "python",
@@ -65,15 +67,11 @@ function Review() {
   const handleReset = () => {
     setCode("");
     setFile(null);
-
-    setConsoleOutput(
-      "Ready. Click 'Run Code' to execute your program."
-    );
-
+    setProgramInput("");
+    setConsoleOutput("Ready. Enter your code and click Run Code.");
     setExecutionTime("--");
     setMemory("--");
     setStatus("Idle");
-    setLoading(false);
 
     setReviewData({
       score: 0,
@@ -86,38 +84,52 @@ function Review() {
   };
 
   const handleRun = async () => {
-  if (!code.trim()) {
-    toast.error("Please enter some code.");
-    return;
-  }
+    if (!code.trim()) {
+      toast.error("Please enter some code.");
+      return;
+    }
 
-  try {
-    setLoading(true);
+    if (isRunning || isReviewing) return;
+
+    setIsRunning(true);
     setStatus("Running");
-    setConsoleOutput("⚡ Running your code...");
+    setConsoleOutput("Compiling and running your code...");
+    setExecutionTime("--");
+    setMemory("--");
 
-    const { data } = await API.post("/run", {
-      language,
-      code,
-    });
+    try {
+      const { data } = await API.post("/run", {
+        language,
+        code,
+        input: programInput,
+      });
 
-    setConsoleOutput(data.output);
-    setExecutionTime(data.executionTime);
-    setMemory(data.memory);
-    setStatus(data.status);
+      setConsoleOutput(
+        data.output ||
+          (Array.isArray(data.errors) ? data.errors.join("\n") : "") ||
+          "Execution finished with no output."
+      );
 
-    toast.success("Code executed successfully!");
+      setExecutionTime(data.executionTime ?? "--");
+      setMemory(data.memory ?? "--");
+      setStatus(data.status || "Completed");
 
-  } catch (err) {
-    setStatus("Error");
-    setConsoleOutput("Execution Failed");
-    toast.error("Execution Failed");
-    console.error(err);
-
-  } finally {
-    setLoading(false);
-  }
-};
+      if (data.status === "Completed" || data.status === "Accepted") {
+        toast.success("Execution finished.");
+      } else {
+        toast.error("Execution did not complete successfully.");
+      }
+    } catch (err) {
+      console.error("Run Code error:", err);
+      setStatus("Error");
+      setConsoleOutput(
+        err.response?.data?.message || "Execution failed. Check the server terminal."
+      );
+      toast.error("Execution failed.");
+    } finally {
+      setIsRunning(false);
+    }
+  };
 
   const handleReview = async () => {
     if (!code.trim()) {
@@ -125,13 +137,12 @@ function Review() {
       return;
     }
 
+    if (isRunning || isReviewing) return;
+
+    setIsReviewing(true);
+
     try {
-      setLoading(true);
-      setStatus("Reviewing...");
-setConsoleOutput("🤖 AI is analyzing your code...");
-
       const token = localStorage.getItem("token");
-
       const formData = new FormData();
 
       formData.append("language", language);
@@ -149,66 +160,51 @@ setConsoleOutput("🤖 AI is analyzing your code...");
       });
 
       setReviewData({
-  score: data.score,
-  performance: data.performance ?? 90,
-  readability: data.readability ?? 91,
-  security: data.security ?? 88,
-  maintainability: data.maintainability ?? 94,
-  suggestions: data.suggestions || [],
-});
+        score: data.score ?? 0,
+        performance: data.metrics?.performance ?? data.performance ?? 0,
+        readability: data.metrics?.readability ?? data.readability ?? 0,
+        security: data.metrics?.security ?? data.security ?? 0,
+        maintainability:
+          data.metrics?.maintainability ?? data.maintainability ?? 0,
+        suggestions: data.suggestions || [],
+      });
 
-setConsoleOutput(
-  data.stdout ||
-  data.compileOutput ||
-  "✅ AI Review completed successfully."
-);
-
-setStatus("Completed");
-
-setExecutionTime(data.executionTime || "--");
-setMemory(data.memory || "--");
-toast.success("AI Review completed successfully!");
+      toast.success("AI review completed.");
     } catch (err) {
-      console.error(err);
-
-      toast.error(
-  err.response?.data?.message ||
-  "Review Failed"
-);
+      console.error("AI Review error:", err);
+      toast.error(err.response?.data?.message || "Review failed.");
     } finally {
-      setLoading(false);
+      setIsReviewing(false);
     }
   };
-    return (
+
+  return (
     <div className="review-layout">
       <Sidebar />
 
       <main className="workspace">
         <div className="workspace-header">
           <div>
-            <h1>🚀 AI Code Review Workspace</h1>
+            <h1>AI Code Review Workspace</h1>
             <p>Review, analyze and improve your code with AI.</p>
           </div>
         </div>
 
         <div className="workspace-grid">
-          {/* LEFT SIDE */}
           <div className="editor-area">
             <div className="editor-card">
               <div className="editor-topbar">
-               <span className="editor-file">
-  🟢 🟡 🔴
-  &nbsp;&nbsp;
-  {file
-    ? file.name
-    : `Main.${
-        language === "python"
-          ? "py"
-          : language === "javascript"
-          ? "js"
-          : language
-      }`}
-</span>
+                <span className="editor-file">
+                  {file
+                    ? file.name
+                    : `Main.${
+                        language === "python"
+                          ? "py"
+                          : language === "javascript"
+                          ? "js"
+                          : language
+                      }`}
+                </span>
 
                 <span className="editor-language">
                   {language.toUpperCase()}
@@ -222,12 +218,37 @@ toast.success("AI Review completed successfully!");
                 value={code}
                 onChange={(value) => setCode(value || "")}
                 options={{
-                  minimap: {
-                    enabled: false,
-                  },
+                  minimap: { enabled: false },
                   automaticLayout: true,
                   fontSize: 15,
                   scrollBeyondLastLine: false,
+                }}
+              />
+            </div>
+
+            <div style={{ margin: "16px 0" }}>
+              <label
+                htmlFor="program-input"
+                style={{ display: "block", marginBottom: 8 }}
+              >
+                Program Input (for Scanner, input(), etc.)
+              </label>
+
+              <textarea
+                id="program-input"
+                value={programInput}
+                onChange={(e) => setProgramInput(e.target.value)}
+                placeholder={"Enter input, one value per line. Example:\nMuskan\n22"}
+                rows={4}
+                style={{
+                  width: "100%",
+                  boxSizing: "border-box",
+                  padding: 12,
+                  borderRadius: 8,
+                  resize: "vertical",
+                  background: "#0b1020",
+                  color: "#ffffff",
+                  border: "1px solid #30394f",
                 }}
               />
             </div>
@@ -239,17 +260,9 @@ toast.success("AI Review completed successfully!");
               status={status}
             />
 
-            <ReviewSummary
-              score={reviewData.score}
-              performance={reviewData.performance}
-              readability={reviewData.readability}
-              security={reviewData.security}
-              maintainability={reviewData.maintainability}
-              suggestions={reviewData.suggestions}
-            />
+            <ReviewSummary reviewData={reviewData} />
           </div>
 
-          {/* RIGHT SIDE */}
           <div className="side-panels">
             <ActionPanel
               language={language}
@@ -258,11 +271,17 @@ toast.success("AI Review completed successfully!");
               handleRun={handleRun}
               handleReset={handleReset}
               handleFile={handleFile}
-              loading={loading}
+              loading={isReviewing}
+              isRunning={isRunning}
+              isReviewing={isReviewing}
               file={file}
             />
 
-            <ChatPanel />
+            <ChatPanel
+              code={code}
+              language={language}
+              reviewData={reviewData}
+            />
           </div>
         </div>
       </main>

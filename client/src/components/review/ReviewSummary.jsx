@@ -1,17 +1,22 @@
+
 import "./ReviewSummary.css";
 
 function Metric({ title, value }) {
+  const number = Number(value);
+  const safeValue = Number.isFinite(number)
+    ? Math.max(0, Math.min(100, number))
+    : 0;
+
   return (
     <div className="metric">
       <div className="metric-header">
         <span>{title}</span>
-        <span>{value}%</span>
+        <span>{safeValue}%</span>
       </div>
-
       <div className="progress">
         <div
           className="progress-fill"
-          style={{ width: `${value}%` }}
+          style={{ width: `${safeValue}%` }}
         />
       </div>
     </div>
@@ -19,86 +24,95 @@ function Metric({ title, value }) {
 }
 
 function ReviewSummary({ reviewData }) {
-
   if (!reviewData) {
     return (
       <div className="review-summary">
-
-        <h2>🤖 AI Review Summary</h2>
-
-        <p style={{color:"#94A3B8"}}>
-          Run an AI Review to see analysis and suggestions.
-        </p>
-
+        <h2>AI Review Summary</h2>
+        <p>Run AI Review to see your results.</p>
       </div>
     );
   }
 
+  const suggestions = Array.isArray(reviewData.suggestions)
+    ? reviewData.suggestions
+    : [];
+
   return (
-    <div className="review-summary">
-
+    <section className="review-summary">
       <div className="summary-title">
-
-        <h2>🤖 AI Review Summary</h2>
-
+        <h2>AI Review Summary</h2>
         <div className="score-circle">
-
-          <h1>{reviewData.score}</h1>
-
-          <span>Overall</span>
-
+          <h1>{reviewData.score ?? "--"}</h1>
+          <span>Overall / 100</span>
         </div>
-
       </div>
 
-      <Metric
-        title="Performance"
-        value={reviewData.performance}
-      />
-
-      <Metric
-        title="Readability"
-        value={reviewData.readability}
-      />
-
-      <Metric
-        title="Security"
-        value={reviewData.security}
-      />
-
+      <Metric title="Performance" value={reviewData.performance} />
+      <Metric title="Readability" value={reviewData.readability} />
+      <Metric title="Security" value={reviewData.security} />
       <Metric
         title="Maintainability"
         value={reviewData.maintainability}
       />
 
       <div className="suggestions">
+        <h3>AI Findings ({suggestions.length})</h3>
 
-        <h3 style={{color:"#F8FAFC"}}>
-          💡 AI Suggestions
-        </h3>
-
-        {reviewData.suggestions.length === 0 ? (
-
+        {suggestions.length === 0 ? (
           <div className="suggestion-card">
-            No suggestions. Great job! 🎉
+            No findings were returned for this review.
           </div>
-
         ) : (
+          suggestions.map((item, index) => {
+            const category =
+              typeof item === "string"
+                ? "Suggestion"
+                : item?.category || "General";
 
-          reviewData.suggestions.map((item,index)=>(
-            <div
-              key={index}
-              className="suggestion-card"
-            >
-              ✅ {item}
-            </div>
-          ))
+            const message =
+              typeof item === "string"
+                ? item
+                : item?.message || "No explanation provided.";
 
+            const severity = ["high", "medium", "low"].includes(
+              String(item?.severity).toLowerCase()
+            )
+              ? String(item.severity).toLowerCase()
+              : "low";
+
+            const evidence =
+              typeof item === "object" && item
+                ? item.evidence
+                : "";
+
+            return (
+              <article
+                key={index}
+                className="suggestion-card"
+              >
+                <div className="finding-header">
+                  <strong>{category}</strong>
+                  <span className={`severity-badge severity-${severity}`}>
+                    {severity.toUpperCase()}
+                  </span>
+                </div>
+
+                <p>{message}</p>
+
+                {evidence && (
+                  <div className="finding-evidence">
+                    <strong>Code evidence</strong>
+                    <pre>
+                      <code>{String(evidence)}</code>
+                    </pre>
+                  </div>
+                )}
+              </article>
+            );
+          })
         )}
-
       </div>
-
-    </div>
+    </section>
   );
 }
 

@@ -1,84 +1,74 @@
 import pool from "../config/db.js";
 
 export const getDashboard = async (req, res) => {
+  try {
+    const userId = req.user.id;
 
-    try {
+    const [
+      totalResult,
+      averageResult,
+      languageResult,
+      weekResult,
+      recentResult,
+    ] = await Promise.all([
+      pool.query(
+        `SELECT COUNT(*) AS total
+         FROM reviews
+         WHERE user_id = $1`,
+        [userId]
+      ),
 
-        const userId = req.user.id;
+      pool.query(
+        `SELECT COALESCE(ROUND(AVG(score)::numeric, 1), 0) AS average
+         FROM reviews
+         WHERE user_id = $1 AND score IS NOT NULL`,
+        [userId]
+      ),
 
-        const totalResult = await pool.query(
-            "SELECT COUNT(*) FROM reviews WHERE user_id=$1",
-            [userId]
-        );
+      pool.query(
+        `SELECT language, COUNT(*) AS total
+         FROM reviews
+         WHERE user_id = $1
+         GROUP BY language
+         ORDER BY COUNT(*) DESC, language ASC
+         LIMIT 1`,
+        [userId]
+      ),
 
-        const languageResult = await pool.query(
-            `
-            SELECT language, COUNT(*) AS total
-            FROM reviews
-            WHERE user_id=$1
-            GROUP BY language
-            ORDER BY total DESC
-            LIMIT 1
-            `,
-            [userId]
-        );
+      pool.query(
+        `SELECT COUNT(*) AS total
+         FROM reviews
+         WHERE user_id = $1
+         AND created_at >= NOW() - INTERVAL '7 days'`,
+        [userId]
+      ),
 
-        const latestResult = await pool.query(
-            `
-            SELECT created_at
-            FROM reviews
-            WHERE user_id=$1
-            ORDER BY created_at DESC
-            LIMIT 1
-            `,
-            [userId]
-        );
+      pool.query(
+        `SELECT id, language, created_at, score, compiler_status
+         FROM reviews
+         WHERE user_id = $1
+         ORDER BY created_at DESC
+         LIMIT 5`,
+        [userId]
+      ),
+    ]);
 
-        const weekResult = await pool.query(
-            `
-            SELECT COUNT(*)
-            FROM reviews
-            WHERE user_id=$1
-            AND created_at >= NOW() - INTERVAL '7 days'
-            `,
-            [userId]
-        );
+    res.json({
+      success: true,
+      totalReviews: Number(totalResult.rows[0].total),
+      averageScore: Number(averageResult.rows[0].average),
+      mostUsedLanguage: languageResult.rows.length
+        ? languageResult.rows[0].language
+        : "N/A",
+      weeklyReviews: Number(weekResult.rows[0].total),
+      recentReviews: recentResult.rows,
+    });
+  } catch (error) {
+    console.error("Dashboard error:", error);
 
-        const recentReviews = await pool.query(
-            `
-            SELECT id, language, created_at
-            FROM reviews
-            WHERE user_id=$1
-            ORDER BY created_at DESC
-            LIMIT 5
-            `,
-            [userId]
-        );
-
-        res.json({
-            success: true,
-            totalReviews: Number(totalResult.rows[0].count),
-            mostUsedLanguage:
-                languageResult.rows.length
-                    ? languageResult.rows[0].language
-                    : "N/A",
-            latestReview:
-                latestResult.rows.length
-                    ? latestResult.rows[0].created_at
-                    : null,
-            weeklyReviews: Number(weekResult.rows[0].count),
-            recentReviews: recentReviews.rows
-        });
-
-    } catch (error) {
-
-        console.log(error);
-
-        res.status(500).json({
-            success: false,
-            message: "Server Error"
-        });
-
-    }
-
+    res.status(500).json({
+      success: false,
+      message: "Unable to load dashboard statistics.",
+    });
+  }
 };

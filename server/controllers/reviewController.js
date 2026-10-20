@@ -60,18 +60,24 @@ export const reviewCode = async (req, res) => {
       ]
     );
 
-    return res.json({
-      success: true,
-      language,
-      compilerStatus: "Not Executed",
-      stdout: "",
-      stderr: "",
-      compileOutput: "",
-      executionTime: "0",
-      memory: "0",
-      score: aiReview.score,
-      suggestions: aiReview.suggestions,
-    });
+   
+return res.json({
+  success: true,
+  language,
+  compilerStatus: "Not Executed",
+  stdout: "",
+  stderr: "",
+  compileOutput: "",
+  executionTime: null,
+  memory: null,
+  score: aiReview.score,
+  performance: aiReview.metrics.performance,
+  readability: aiReview.metrics.readability,
+  security: aiReview.metrics.security,
+  maintainability: aiReview.metrics.maintainability,
+  suggestions: aiReview.suggestions,
+});
+
 
   } catch (error) {
 

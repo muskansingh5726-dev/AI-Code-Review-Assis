@@ -92,3 +92,61 @@
     transform:translateX(6px);
     background:#1E293B;
 }
+
+
+.finding-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.severity-badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.severity-high {
+  color: #991b1b;
+  background: #fee2e2;
+}
+
+.severity-medium {
+  color: #92400e;
+  background: #fef3c7;
+}
+
+.severity-low {
+  color: #166534;
+  background: #dcfce7;
+}
+
+.finding-evidence {
+  margin-top: 14px;
+}
+
+.finding-evidence strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: #cbd5e1;
+}
+
+.finding-evidence pre {
+  margin: 0;
+  padding: 12px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  border-radius: 8px;
+  background: #080d19;
+  color: #93c5fd;
+  font-size: 13px;
+}

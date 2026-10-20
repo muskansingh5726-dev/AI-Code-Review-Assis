@@ -57,7 +57,9 @@ navigate("/dashboard");
    
 } catch (error) {
 
-    console.log(error.response.data);    // ✅ Console
+    console.error(
+  "Login error:",
+  error.response?.data?.message || error.message );   
     toast.error(error.response?.data?.message || "Login failed");
 }
     }

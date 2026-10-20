@@ -11,6 +11,7 @@ import dashboardRoutes from "./routes/dashboardRoutes.js";
 import profileRoutes from "./routes/profileRoutes.js";
 import healthRoutes from "./routes/healthRoutes.js";
 import runRoutes from "./routes/run.js";
+import chatRoutes from "./routes/chatRoutes.js";
 
 import pool from "./config/db.js";
 
@@ -29,6 +30,7 @@ app.use("/api/history", historyRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/run", runRoutes);
+app.use("/api/chat", chatRoutes);
 
 pool
   .query("SELECT NOW()")
