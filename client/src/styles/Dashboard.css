@@ -1,14 +1,25 @@
-/* ===========================
-   DASHBOARD
-=========================== */
+.dashboard-layout {
+    display: flex;
+    align-items: flex-start;
+    min-height: 100vh;
+    width: 100%;
+    background: #0B1120;
+}
 
-.dashboard{
-    margin-left:260px;
-    min-height:100vh;
-    background:#0B1120;
-    padding:40px;
-    color:#F8FAFC;
-    transition:.3s;
+.dashboard-layout > .dashboard {
+    flex: 1;
+    min-width: 0;
+    margin-left: 0;
+}
+
+.dashboard {
+    box-sizing: border-box;
+    min-height: 100vh;
+    width: 100%;
+    background: #0B1120;
+    padding: 40px;
+    color: #F8FAFC;
+    transition: 0.3s;
 }
 
 .dashboard-header{
@@ -36,10 +47,6 @@
     gap:15px;
     flex-wrap:wrap;
 }
-
-/* ===========================
-   BUTTONS
-=========================== */
 
 .primary-btn,
 .secondary-btn{
@@ -73,9 +80,6 @@
     transform:translateY(-3px);
 }
 
-/* ===========================
-   STATS
-=========================== */
 
 .stats-grid{
     display:grid;
@@ -110,9 +114,6 @@
     color:white;
 }
 
-/* ===========================
-   RECENT REVIEWS
-=========================== */
 
 .dashboard-section{
     background:#111827;
@@ -177,9 +178,6 @@
     font-weight:700;
 }
 
-/* ===========================
-   EMPTY STATE
-=========================== */
 
 .empty-state{
     text-align:center;
@@ -195,11 +193,16 @@
     color:#94A3B8;
 }
 
-/* ===========================
-   RESPONSIVE
-=========================== */
 
 @media(max-width:992px){
+.dashboard-layout {
+    flex-direction: column;
+}
+
+.dashboard-layout > .dashboard {
+    width: 100%;
+    margin-left: 0;
+}
 
 .dashboard{
     margin-left:0;

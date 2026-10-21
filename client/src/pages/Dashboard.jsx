@@ -61,10 +61,10 @@ function Dashboard() {
   }, [loadDashboard]);
 
   return (
-    <>
-      <Sidebar />
+  <div className="dashboard-layout">
+    <Sidebar />
 
-      <main className="dashboard">
+    <main className="dashboard">
         <div className="dashboard-header">
           <div>
             <h1>AI Code Review Dashboard</h1>
@@ -199,9 +199,9 @@ function Dashboard() {
             </section>
           </>
         )}
-      </main>
-    </>
-  );
+             </main>
+  </div>
+);
 }
 
 export default Dashboard;
