@@ -1,5 +1,7 @@
+
 import { Routes, Route } from "react-router-dom";
-import ProtectedRoute from "./components/ProtectedRoute";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
@@ -11,26 +13,73 @@ import Result from "./pages/Result";
 import History from "./pages/History";
 import Profile from "./pages/Profile";
 import Demo from "./pages/Demo";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Landing />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
-      <Route path="/forgot-password" element={<ForgotPassword />} />
-      <Route path="/dashboard" element={
-        <ProtectedRoute> <Dashboard /></ProtectedRoute>}/>
-      <Route path="/review" element={
-        <ProtectedRoute> <Review /> </ProtectedRoute>} />
-      <Route path="/result" element={
-        <ProtectedRoute> <Result /> </ProtectedRoute>} />
-     <Route path="/history" element={
-        <ProtectedRoute> <History /> </ProtectedRoute>} />
-      <Route path="/profile" element={
-        <ProtectedRoute><Profile /> </ProtectedRoute>} />
+    <>
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/review"
+          element={
+            <ProtectedRoute>
+              <Review />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/result"
+          element={
+            <ProtectedRoute>
+              <Result />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/history"
+          element={
+            <ProtectedRoute>
+              <History />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+
         <Route path="/demo" element={<Demo />} />
-    </Routes>
+      </Routes>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        theme="dark"
+        newestOnTop
+        pauseOnHover
+      />
+    </>
   );
 }
 

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import API from "../api/api";
 import Sidebar from "../components/Sidebar";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function Profile() {
 
@@ -64,12 +65,13 @@ function Profile() {
                 }
             );
 
-            alert("Profile Updated Successfully");
+           toast.success("Profile updated successfully!");
 
         } catch (error) {
 
-            alert(error.response?.data?.message);
-
+            toast.error(
+  error.response?.data?.message || "Something went wrong. Please try again."
+);
         }
 
     };
@@ -93,14 +95,16 @@ function Profile() {
                 }
             );
 
-            alert("Password Updated");
+            toast.success("Password updated successfully!");
 
             setCurrentPassword("");
             setNewPassword("");
 
         } catch (error) {
 
-            alert(error.response?.data?.message);
+           toast.error(
+  error.response?.data?.message || "Something went wrong. Please try again."
+);
 
         }
 
@@ -115,12 +119,11 @@ function Profile() {
 
     };
 
-      return (
-    <>
-        <Sidebar />
+    return (
+  <div className="profile-layout">
+    <Sidebar />
 
-        <div className="profile-page">
-
+    <main className="profile-page">
             <h1>My Profile</h1>
 
             <div className="profile-card">
@@ -184,8 +187,8 @@ function Profile() {
                 Logout
             </button>
 
-                </div>
-    </>
+                    </main>
+  </div>
 );
 
 }

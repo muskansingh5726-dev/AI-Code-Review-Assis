@@ -75,22 +75,22 @@ function History() {
   };
 
   if (loading) {
-    return (
-      <>
-        <Sidebar />
-        <main className="history-page">
-          <h1>Review History</h1>
-          <p>Loading your saved reviews...</p>
-        </main>
-      </>
-    );
-  }
+  return (
+    <div className="history-layout">
+      <Sidebar />
+      <main className="history-page">
+        <h1>Review History</h1>
+        <p>Loading your saved reviews...</p>
+      </main>
+    </div>
+  );
+}
 
   return (
-    <>
-      <Sidebar />
+  <div className="history-layout">
+    <Sidebar />
 
-      <main className="history-page">
+    <main className="history-page">
         <div className="history-title-row">
           <div>
             <h1>Review History</h1>
@@ -263,9 +263,9 @@ function History() {
             })}
           </div>
         )}
-      </main>
-    </>
-  );
+          </main>
+  </div>
+);
 }
 
 export default History;

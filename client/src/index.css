@@ -85,3 +85,28 @@ display:block;
 html{
     scroll-behavior:smooth;
 }
+
+.Toastify__toast {
+    background: #111827 !important;
+    color: #f8fafc !important;
+    border: 1px solid rgba(139, 92, 246, 0.35);
+    border-radius: 14px !important;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
+    font-family: inherit;
+}
+
+.Toastify__toast--success {
+    border-left: 4px solid #34d399;
+}
+
+.Toastify__toast--error {
+    border-left: 4px solid #f87171;
+}
+
+.Toastify__progress-bar--success {
+    background: linear-gradient(90deg, #8b5cf6, #2563eb);
+}
+
+.Toastify__close-button {
+    color: #cbd5e1 !important;
+}

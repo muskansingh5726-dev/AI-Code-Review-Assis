@@ -16,7 +16,6 @@ function Review() {
   const [code, setCode] = useState("");
   const [file, setFile] = useState(null);
 
-  // Keep execution and AI review independent.
   const [isRunning, setIsRunning] = useState(false);
   const [isReviewing, setIsReviewing] = useState(false);
 
@@ -182,7 +181,7 @@ function Review() {
     <div className="review-layout">
       <Sidebar />
 
-      <main className="workspace">
+      <main className="review-main">
         <div className="workspace-header">
           <div>
             <h1>AI Code Review Workspace</h1>
