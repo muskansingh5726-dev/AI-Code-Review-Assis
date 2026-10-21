@@ -10,6 +10,7 @@ import Review from "./pages/Review";
 import Result from "./pages/Result";
 import History from "./pages/History";
 import Profile from "./pages/Profile";
+import Demo from "./pages/Demo";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <ProtectedRoute> <History /> </ProtectedRoute>} />
       <Route path="/profile" element={
         <ProtectedRoute><Profile /> </ProtectedRoute>} />
+        <Route path="/demo" element={<Demo />} />
     </Routes>
   );
 }

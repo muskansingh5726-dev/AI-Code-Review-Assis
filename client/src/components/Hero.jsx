@@ -1,47 +1,28 @@
+
 import "../styles/Hero.css";
 import { FaArrowRight } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 function Hero() {
-
     const navigate = useNavigate();
 
     const handleStartReview = () => {
-
         const token = localStorage.getItem("token");
 
         if (token) {
-
             navigate("/review");
-
         } else {
-
             navigate("/login");
-
         }
-
     };
 
     const handleLiveDemo = () => {
-
-        const features = document.getElementById("features");
-
-        if (features) {
-
-            features.scrollIntoView({
-                behavior: "smooth"
-            });
-
-        }
-
+        navigate("/demo");
     };
 
     return (
-
         <section className="hero">
-
             <div className="hero-left">
-
                 <span className="badge">
                     🚀 AI Powered Code Review
                 </span>
@@ -59,29 +40,22 @@ function Hero() {
                 </p>
 
                 <div className="hero-buttons">
-
                     <button
                         className="start-btn"
                         onClick={handleStartReview}
                     >
-
                         Start Reviewing <FaArrowRight />
-
                     </button>
 
                     <button
                         className="demo-btn"
                         onClick={handleLiveDemo}
                     >
-
                         Live Demo
-
                     </button>
-
                 </div>
 
                 <div className="hero-stats">
-
                     <div>
                         <h2>10K+</h2>
                         <p>Reviews</p>
@@ -96,41 +70,32 @@ function Hero() {
                         <h2>99%</h2>
                         <p>Accuracy</p>
                     </div>
-
                 </div>
-
             </div>
 
             <div className="hero-right">
+                <div className="hero-process">
+                    <h2>⚡ How It Works</h2>
 
-    <div className="hero-process">
+                    <div className="step">
+                        <strong>1.</strong>&nbsp; Paste Code / Upload File
+                    </div>
 
-        <h2>⚡ How It Works</h2>
+                    <div className="step">
+                        <strong>2.</strong>&nbsp; AI Reviews Your Code
+                    </div>
 
-        <div className="step">
-    <strong>1.</strong>&nbsp; Paste Code / Upload File
-</div>
+                    <div className="step">
+                        <strong>3.</strong>&nbsp; Detect Errors
+                    </div>
 
-<div className="step">
-    <strong>2.</strong>&nbsp; AI Reviews Your Code
-</div>
-
-<div className="step">
-    <strong>3.</strong>&nbsp; Detect Errors
-</div>
-
-<div className="step">
-    <strong>4.</strong>&nbsp; Improve Your Code
-</div>
-
-    </div>
-
-</div>
-
+                    <div className="step">
+                        <strong>4.</strong>&nbsp; Improve Your Code
+                    </div>
+                </div>
+            </div>
         </section>
-
     );
-
 }
 
 export default Hero;
