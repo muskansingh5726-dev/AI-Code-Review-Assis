@@ -2,7 +2,7 @@
 
 An AI-powered code review platform that helps developers understand their code, identify potential bugs, improve readability, and explore better coding practices.
 
-**Live Application:** https://ai-code-review-assis.vercel.app/  
+**Live Application:** https://ai-code-review-assis.vercel.app/ 
 **GitHub Repository:** https://github.com/muskansingh5726-dev/AI-Code-Review-Assis
 
 ## Overview
