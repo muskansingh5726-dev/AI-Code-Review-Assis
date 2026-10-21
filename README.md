@@ -1,168 +1,222 @@
 # AI Code Review Assistant
 
-## About the Project
+An AI-powered code review platform that helps developers understand their code, identify potential bugs, improve readability, and explore better coding practices.
 
-This project was developed as part of my web development internship. The main idea behind this project is to help programmers review their code with the help of AI.
+**Live Application:** https://ai-code-review-assis.vercel.app/  
+**GitHub Repository:** https://github.com/muskansingh5726-dev/AI-Code-Review-Assis
 
-Users can write code in the editor or upload a source file. The code is compiled and executed using Judge0, and an AI model analyzes it to provide suggestions for improving code quality, readability, and best practices. Every review is saved so users can access it later.
+## Overview
 
----
+AI Code Review Assistant is a full-stack web application built with React, Node.js, Express, PostgreSQL, and Groq-powered AI.
+
+Users can submit code for AI-assisted feedback, interact with an AI coding assistant, and access saved reviews through an authenticated dashboard.
+
+The application also includes a code execution feature for supported languages. The public execution endpoint may be temporarily disabled while execution security is improved.
 
 ## Features
 
-- User Registration & Login
-- JWT Authentication
-- Code Editor (Monaco Editor)
-- Supports Java, Python, C, C++ and JavaScript
-- Upload source code files
-- Compile and Execute Code using Judge0
-- AI Code Review using Groq
-- AI Review Score
-- Suggestions for improving code
-- Review History
-- Download Review Report as PDF
-- Dashboard with review statistics
+- User registration and login
+- JWT-based authentication
+- Protected application routes
+- AI-powered code reviews using Groq
+- Code editor and source-code upload
+- Java, Python, and JavaScript execution support in the current local runner
+- AI coding chat with concise responses
+- Dashboard and review history
+- Review findings and improvement suggestions
+- Interactive demo page using clearly labelled sample results
 
----
-
-## Technologies Used
+## Technology Stack
 
 ### Frontend
-- React.js
+- React
 - Vite
 - React Router
 - Axios
 - Monaco Editor
-- React Toastify
+- Tailwind CSS and other UI styling
 
 ### Backend
 - Node.js
 - Express.js
-- JWT
-- Multer
+- JWT authentication
+- Multer for file uploads
+- Language-specific code analyzers
 
-### Database
-- PostgreSQL (Neon)
-
-### APIs
-- Judge0 API
+### Database and AI
+- PostgreSQL
+- Neon
 - Groq API
 
----
+### Deployment
+- Vercel — frontend
+- Render — backend
 
-## Folder Structure
+## Architecture
 
+```text
+Developer / Browser
+        |
+        v
+ React + Vite Frontend
+        |
+        | HTTP requests
+        v
+ Express.js REST API
+        |
+        +------ Authentication
+        |
+        +------ AI Review and Chat
+        |             |
+        |             v
+        |          Groq API
+        |
+        +------ Code Runner
+        |       Java / Python / JavaScript
+        |
+        v
+ PostgreSQL Database
+        |
+        v
+ Review History and Dashboard Data
 ```
-AI-Code-Review-Assistant
-│
-├── client
-│
-├── server
-│
+
+**Security note:** Execution timeouts and input validation alone are not sufficient to securely isolate arbitrary code. Public code execution should remain disabled until proper operating-system or container isolation, resource limits, and access restrictions are implemented and verified.
+
+## Project Structure
+
+```text
+AI-Code-Review-Assis/
+├── client/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── api/
+│   │   └── styles/
+│   └── package.json
+├── server/
+│   ├── analyzers/
+│   ├── config/
+│   ├── controllers/
+│   ├── middleware/
+│   ├── routes/
+│   ├── services/
+│   ├── server.js
+│   └── package.json
 └── README.md
 ```
 
----
+## Run Locally
 
-## Installation
+### Prerequisites
 
-Clone the repository
+- Node.js and npm
+- PostgreSQL database
+- Groq API key
+- Java JDK and Python installed if you want to test those local execution analyzers
+
+### 1. Clone the repository
 
 ```bash
-git clone https://github.com/muskansingh5726-dev/AI-Code-Review-Assistant.git
+git clone https://github.com/muskansingh5726-dev/AI-Code-Review-Assis.git
+cd AI-Code-Review-Assis
 ```
 
-Install dependencies
-
-### Client
+### 2. Install frontend dependencies
 
 ```bash
 cd client
 npm install
 ```
 
-### Server
+Start the frontend using the development script defined in `client/package.json`.
+
+### 3. Install backend dependencies
+
+Open a second terminal from the project root:
 
 ```bash
 cd server
 npm install
 ```
 
-Create a `.env` file inside the server folder and add the required environment variables.
+Create a `server/.env` file and configure the environment variables required by the backend.
 
-Start the backend
+Example variable names may include:
+
+```env
+DATABASE_URL=
+JWT_SECRET=
+GROQ_API_KEY=
+PORT=5000
+```
+
+Use the exact names expected by the current backend source code. Do not commit real credentials or API keys.
+
+For local testing only, code execution can be enabled using the route's configured environment flag, if that flag is present in your local code.
+
+### 4. Start the backend
 
 ```bash
-cd server
 npm run dev
 ```
 
-Start the frontend
+### 5. Start the frontend
+
+In the frontend terminal:
 
 ```bash
-cd client
 npm run dev
 ```
 
----
+Open the local URL printed by Vite in your terminal.
 
 ## Screenshots
 
-### Login Page
+Add screenshots captured from the actual running application to a `docs/screenshots/` directory, then link them here.
 
-(Add Screenshot)
+Suggested screenshots:
 
-### Dashboard
+- Landing page
+- Login page
+- Code review editor
+- AI review results
+- Dashboard and review history
+- AI chat
+- Interactive demo
 
-(Add Screenshot)
+Example Markdown for a screenshot:
 
-### Review Page
+```markdown
+![AI Code Review Assistant landing page](docs/screenshots/landing.png)
+```
 
-(Add Screenshot)
+Only add image links after the corresponding screenshot files exist in the repository.
 
-### Result Page
+## Challenges and Learning
 
-(Add Screenshot)
+This project provided practical experience with:
 
-### History
-
-(Add Screenshot)
-
----
-
-## Challenges Faced
-
-While developing this project, I faced a few challenges such as:
-
-- Integrating Judge0 API for compiling different programming languages.
-- Parsing AI responses into a structured format.
-- Managing file uploads along with manual code input.
-- Storing review history in PostgreSQL.
-- Generating downloadable PDF reports.
-
-These challenges helped me understand API integration, backend development, and database management better.
-
----
+- Integrating an LLM into a full-stack application
+- Designing REST API endpoints
+- Implementing authentication and protected routes
+- Connecting a PostgreSQL database
+- Handling source-code input and execution errors
+- Managing asynchronous API requests and UI states
+- Deploying a React frontend and Node.js backend
 
 ## Future Improvements
 
-Some features that can be added in the future are:
-
-- Dark Mode
-- More programming language support
-- Review analytics
-- Better code visualization
-- Cloud deployment
-
----
+- Secure, isolated code execution
+- More programming languages
+- Automated testing and security checks
+- Improved review analytics
+- Enhanced mobile experience
+- Additional code-quality metrics
 
 ## Author
 
-**Muskan Singh**
+**Muskan Singh**  
+B.Tech — Computer Science and Engineering
 
-B.Tech Computer Science Engineering
-
-Presidency University
-
-GitHub:
-https://github.com/muskansingh5726-dev
+GitHub: https://github.com/muskansingh5726-dev
