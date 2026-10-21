@@ -30,9 +30,6 @@ function Navbar() {
         <a href="#features" onClick={() => setMenuOpen(false)}>Features</a>
     </li>
 
-    <li>
-        <a href="#contact" onClick={() => setMenuOpen(false)}>Contact</a>
-    </li>
 
 </ul>
 

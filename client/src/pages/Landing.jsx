@@ -21,10 +21,6 @@ function Landing() {
     <Features />
 </section>
 
-<section id="contact">
-    <Footer />
-</section>
-
 </>
   );
 }
