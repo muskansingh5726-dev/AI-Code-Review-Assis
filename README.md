@@ -214,6 +214,19 @@ This project provided practical experience with:
 - Enhanced mobile experience
 - Additional code-quality metrics
 
+## Screenshots
+
+### Landing Page
+![Landing Page](./Screenshot%202026-10-21%20170628.png)
+
+### Dashboard
+![Dashboard](./Screenshot%202026-10-21%20170713.png)
+
+### Code Review Workspace
+![Code Review Workspace](./Screenshot%202026-10-21%20170808.png)
+
+### AI Review Results
+![AI Review Results](./Screenshot%202026-10-21%20170838.png)
 ## Author
 
 **Muskan Singh**  
